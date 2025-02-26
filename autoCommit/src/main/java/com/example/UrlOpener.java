@@ -11,13 +11,14 @@ public class UrlOpener {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("URL Opener");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(450, 250);
+            frame.setSize(350, 250);
 
             JTextField urlField = new JTextField(30);
             JCheckBox checkTextInput = new JCheckBox("Text input");
             JCheckBox checkEmailField = new JCheckBox("Email field");
             JCheckBox checkPasswordField = new JCheckBox("Password field");
             JCheckBox checkRRSCommit = new JCheckBox("RRS");
+            JCheckBox checkFCSCommit = new JCheckBox("FCS");
 
             JButton openButton = new JButton("Выполнить действия");
 
@@ -26,7 +27,8 @@ public class UrlOpener {
                 public void actionPerformed(ActionEvent e) {
                     String url = urlField.getText();
                     WebDriverManagerUtil.openWebpage(url, checkTextInput.isSelected(),
-                            checkEmailField.isSelected(), checkPasswordField.isSelected(), checkRRSCommit.isSelected());
+                            checkEmailField.isSelected(), checkPasswordField.isSelected(),
+                            checkRRSCommit.isSelected(), checkFCSCommit.isSelected());
                 }
             });
 
@@ -36,6 +38,7 @@ public class UrlOpener {
             panel.add(checkEmailField);
             panel.add(checkPasswordField);
             panel.add(checkRRSCommit);
+            panel.add(checkFCSCommit);
             panel.add(openButton);
 
             frame.getContentPane().add(panel);

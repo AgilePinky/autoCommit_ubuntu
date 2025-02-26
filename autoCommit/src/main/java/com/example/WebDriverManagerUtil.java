@@ -18,7 +18,8 @@ public class WebDriverManagerUtil {
     private static boolean screenshotTaken = false;
 
     public static void openWebpage(String url, boolean checkTextInput, boolean checkEmailField,
-                                   boolean checkPasswordField, boolean checkRRSCommit) {
+                                   boolean checkPasswordField, boolean checkRRSCommit,
+                                   boolean checkFCSCommit) {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         String login = "sharipovi2002@mail.ru";
@@ -112,6 +113,31 @@ public class WebDriverManagerUtil {
                     }
                 } catch (NoSuchElementException e) {
                     JOptionPane.showMessageDialog(null, "Элемент 'RRS' не найден.");
+                }
+            }
+
+            if (checkFCSCommit) {
+//                i.sharipov  m6JHWgSANhrLbGkta8QUdn
+                try {
+                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='user']"))).sendKeys("i.sharipov");
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='current-password']"))).sendKeys("m6JHWgSANhrLbGkta8QUdn");
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
+
+                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'front-content-scheduler-66f8db4bfb-l86hm')]")));
+                    String actualTextInput = textInputElement.getText();
+                    if (actualTextInput.equals("front-content-scheduler-66f8db4bfb-l86hm")) {
+                        if (!screenshotTaken){
+                            JOptionPane.showMessageDialog(null, "Совпадает FCS");
+//                          ScreenshotUtil.takeScreenshot("RRS.png"); // Скриншот после заполнения поля
+                            ScreenshotUtilUbuntu.takeScreenshotUbuntu("FCS.png");
+                            screenshotTaken = true; // Устанавливаем флаг в true, чтобы предотвратить повторный скриншот
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
+                    }
+                } catch (NoSuchElementException e) {
+                    JOptionPane.showMessageDialog(null, "Элемент 'FCS' не найден.");
                 }
             }
 
