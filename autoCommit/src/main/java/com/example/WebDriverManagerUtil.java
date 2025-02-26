@@ -100,6 +100,8 @@ public class WebDriverManagerUtil {
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
 
                     WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]")));
+                    System.out.println("Элемент найден");
+
                     String actualTextInput = textInputElement.getText();
                     if (actualTextInput.equals("data-routing-scheduler-688c4666d4-n4wg8")) {
                         if (!screenshotTaken){
@@ -124,9 +126,11 @@ public class WebDriverManagerUtil {
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='current-password']"))).sendKeys("m6JHWgSANhrLbGkta8QUdn");
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
 
-                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'front-content-scheduler-66f8db4bfb-l86hm')]")));
+                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'analytics-micro-scheduler-77bb488657-8sxnh)]")));
+                    System.out.println("Элемент найден");
+
                     String actualTextInput = textInputElement.getText();
-                    if (actualTextInput.equals("front-content-scheduler-66f8db4bfb-l86hm")) {
+                    if (actualTextInput.equals("analytics-micro-scheduler-77bb488657-8sxnh")) {
                         if (!screenshotTaken){
                             JOptionPane.showMessageDialog(null, "Совпадает FCS");
 //                          ScreenshotUtil.takeScreenshot("RRS.png"); // Скриншот после заполнения поля
