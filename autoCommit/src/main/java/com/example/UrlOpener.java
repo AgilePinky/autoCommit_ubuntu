@@ -25,7 +25,8 @@ public class UrlOpener {
             openButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String url = urlField.getText();
+                    //String url = urlField.getText();
+                    String url = ("https://grafana.devtcn.tech/d/1CiDdN4Sk/stage-image-list?orgId=1&var-namespace=devtcn&var-pod=All&var-container=All&viewPanel=4&var-Filters=image%7C%3D%7Cnexus.devtcn.tech%2Freact-renderer-service:ca-TDF-12474-cat-6b2d9cae");
                     WebDriverManagerUtil.openWebpage(url, checkTextInput.isSelected(),
                             checkEmailField.isSelected(), checkPasswordField.isSelected(),
                             checkRRSCommit.isSelected(), checkFCSCommit.isSelected());

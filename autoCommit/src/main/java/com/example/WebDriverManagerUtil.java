@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
 
 import javax.swing.*;
 import java.time.Duration;
@@ -22,133 +23,25 @@ public class WebDriverManagerUtil {
                                    boolean checkFCSCommit) {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
-        String login = "sharipovi2002@mail.ru";
-        String password = "Pantelis7!!7";
-        String chatUrl = "https://vk.com/im/convo/325568350?entrypoint=list_all";
-        String imagePath = "Text_input.png";
-
 
         try {
             // Открытие веб-страницы
             driver.get(url);
 
-            // Проверка заголовка
-            // Заполнение текстового поля
-            if (checkTextInput) {
-                try {
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Text input']")));
-                    String actualTextInput = textInputElement.getText();
-                    if (actualTextInput.equals("Text input")) {
-                        if(!screenshotTaken){
-                            JOptionPane.showMessageDialog(null, "Совпадает Text input");
-//                          ScreenshotUtil.takeScreenshot("Text_input.png"); // Скриншот после заполнения поля
-                            ScreenshotUtilUbuntu.takeScreenshotUbuntu("Text_input.png");
-                            screenshotTaken = true; // Устанавливаем флаг в true, чтобы предотвратить повторный скриншот
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
-                    }
-                } catch (NoSuchElementException e) {
-                    JOptionPane.showMessageDialog(null, "Элемент 'Text input' не найден.");
+            // Делать окно полным экраном
+            driver.manage().window().maximize(); // или driver.manage().window().fullscreen(); для полного экрана
+
+            // Выполнение входа в систему
+            if (performLogin(driver)) {
+                // Проверяем RRS
+                if (checkRRSCommit) {
+                    checkRRS(driver);
+                }
+                // Проверяем FCS
+                if (checkFCSCommit) {
+                    checkFCS(driver);
                 }
             }
-            if (checkEmailField) {
-                try {
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Email field']")));
-                    String actualTextInput = textInputElement.getText();
-                    if (actualTextInput.equals("Email field")) {
-                        if(!screenshotTaken){
-                            JOptionPane.showMessageDialog(null, "Совпадает Email field");
-//                          ScreenshotUtil.takeScreenshot("Email_field.png"); // Скриншот после заполнения поля
-                            ScreenshotUtilUbuntu.takeScreenshotUbuntu("Email_field.png");
-                            screenshotTaken = true; // Устанавливаем флаг в true, чтобы предотвратить повторный скриншот
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
-                    }
-                } catch (NoSuchElementException e) {
-                    JOptionPane.showMessageDialog(null, "Элемент 'Email field' не найден.");
-                }
-            }
-            if (checkPasswordField) {
-                try {
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Password field']")));
-                    String actualTextInput = textInputElement.getText();
-                    if (actualTextInput.equals("Password field")) {
-                        JOptionPane.showMessageDialog(null, "Совпадает Password field");
-                        if (!screenshotTaken){
-//                          ScreenshotUtil.takeScreenshot("Password_field.png"); // Скриншот после заполнения поля
-                            ScreenshotUtilUbuntu.takeScreenshotUbuntu("Password_field.png");
-                            screenshotTaken = true; // Устанавливаем флаг в true, чтобы предотвратить повторный скриншот
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
-                    }
-                } catch (NoSuchElementException e) {
-                    JOptionPane.showMessageDialog(null, "Элемент 'Password field' не найден.");
-                }
-            }
-            if (checkRRSCommit) {
-//                i.sharipov  m6JHWgSANhrLbGkta8QUdn
-                try {
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='user']"))).sendKeys("i.sharipov");
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='current-password']"))).sendKeys("m6JHWgSANhrLbGkta8QUdn");
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
-
-                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]")));
-                    System.out.println("Элемент найден");
-
-                    String actualTextInput = textInputElement.getText();
-                    if (actualTextInput.equals("data-routing-scheduler-688c4666d4-n4wg8")) {
-                        if (!screenshotTaken){
-                            JOptionPane.showMessageDialog(null, "Совпадает RRS");
-//                          ScreenshotUtil.takeScreenshot("RRS.png"); // Скриншот после заполнения поля
-                            ScreenshotUtilUbuntu.takeScreenshotUbuntu("RRS.png");
-                            screenshotTaken = true; // Устанавливаем флаг в true, чтобы предотвратить повторный скриншот
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
-                    }
-                } catch (NoSuchElementException e) {
-                    JOptionPane.showMessageDialog(null, "Элемент 'RRS' не найден.");
-                }
-            }
-
-            if (checkFCSCommit) {
-//                i.sharipov  m6JHWgSANhrLbGkta8QUdn
-                try {
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='user']"))).sendKeys("i.sharipov");
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='current-password']"))).sendKeys("m6JHWgSANhrLbGkta8QUdn");
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
-
-                    WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'analytics-micro-scheduler-77bb488657-8sxnh)]")));
-                    System.out.println("Элемент найден");
-
-                    String actualTextInput = textInputElement.getText();
-                    if (actualTextInput.equals("analytics-micro-scheduler-77bb488657-8sxnh")) {
-                        if (!screenshotTaken){
-                            JOptionPane.showMessageDialog(null, "Совпадает FCS");
-//                          ScreenshotUtil.takeScreenshot("RRS.png"); // Скриншот после заполнения поля
-                            ScreenshotUtilUbuntu.takeScreenshotUbuntu("FCS.png");
-                            screenshotTaken = true; // Устанавливаем флаг в true, чтобы предотвратить повторный скриншот
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
-                    }
-                } catch (NoSuchElementException e) {
-                    JOptionPane.showMessageDialog(null, "Элемент 'FCS' не найден.");
-                }
-            }
-
-            // Аналогично для других полей...
-
-            //sendImageToVk( login, password, chatUrl, imagePath);
-
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Ошибка при открытии URL: " + url);
@@ -157,4 +50,111 @@ public class WebDriverManagerUtil {
         }
     }
 
+    private static boolean performLogin(WebDriver driver) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='user']"))).sendKeys("i.sharipov");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='current-password']"))).sendKeys("m6JHWgSANhrLbGkta8QUdn");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
+            System.out.println("Вход успешный");
+            return true;
+        } catch (NoSuchElementException e) {
+            JOptionPane.showMessageDialog(null, "Ошибка при входе в систему.");
+            return false;
+        }
+    }
+
+    private static void checkRRS(WebDriver driver) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-service-7599dbf988-z4bwb')]")));
+            System.out.println("Элемент RRS найден");
+            screenshotTaken = false;
+            // Находим элемент, на который нужно навести курсор
+            WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[contains(., 'nexus.devtcn.tech/data-routing-service')]")
+            ));
+            System.out.println("Находим элемент, на который нужно навести курсор");
+
+            // Создаем объект Actions для выполнения действий
+            Actions actions = new Actions(driver);
+
+            // Наводим курсор на элемент
+            actions.moveToElement(hoverElement).perform();
+            System.out.println("Наводим курсор на элемент");
+
+            // Ожидаем, пока кнопка станет доступной
+            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@aria-label='Filter for value']")));
+            System.out.println("Ожидаем, пока кнопка станет доступной");
+
+            // Кликаем на кнопку
+            button.click();
+            System.out.println("Кликаем на кнопку");
+
+
+            String actualTextInput = textInputElement.getText();
+            if (actualTextInput.equals("data-routing-service-7599dbf988-z4bwb")) {
+                if (!screenshotTaken) {
+                    JOptionPane.showMessageDialog(null, "Совпадает RRS");
+                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("RRS.png");
+                    screenshotTaken = true; // Устанавливаем флаг в true
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
+            }
+            // Обновляем страницу после создания скриншота
+            driver.navigate().refresh();
+            System.out.println("Страница обновлена");
+
+        } catch (NoSuchElementException e) {
+            JOptionPane.showMessageDialog(null, "Элемент 'RRS' не найден.");
+        }
+    }
+
+    private static void checkFCS(WebDriver driver) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
+            System.out.println("Элемент FCS найден");
+            screenshotTaken = false;
+
+            // Находим элемент, на который нужно навести курсор
+            WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[contains(., 'nexus.devtcn.tech/front-content-service')]")
+            ));
+            System.out.println("Находим элемент, на который нужно навести курсор");
+
+            // Создаем объект Actions для выполнения действий
+            Actions actions = new Actions(driver);
+
+            // Наводим курсор на элемент
+            actions.moveToElement(hoverElement).perform();
+            System.out.println("Наводим курсор на элемент");
+
+            // Ожидаем, пока кнопка станет доступной
+            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@aria-label='Filter for value']")));
+            System.out.println("Ожидаем, пока кнопка станет доступной");
+
+            // Кликаем на кнопку
+            button.click();
+            System.out.println("Кликаем на кнопку");
+
+            String actualTextInput = textInputElement.getText();
+            if (actualTextInput.equals("front-content-5cd994856b-rs6ng")) {
+                if (!screenshotTaken) {
+                    JOptionPane.showMessageDialog(null, "Совпадает FCS");
+                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("FCS.png");
+                    screenshotTaken = true; // Устанавливаем флаг в true
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
+            }
+            // Обновляем страницу после создания скриншота
+            driver.navigate().refresh();
+            System.out.println("Страница обновлена");
+
+        } catch (NoSuchElementException e) {
+            JOptionPane.showMessageDialog(null, "Элемент 'FCS' не найден.");
+        }
+    }
 }
