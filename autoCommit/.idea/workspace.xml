@@ -6,12 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a28a033e-0148-4299-bcfc-a526657995ec" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FCS.png" beforeDir="false" afterPath="$PROJECT_DIR$/FCS.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RRS.png" beforeDir="false" afterPath="$PROJECT_DIR$/RRS.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/JiraCommentUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/JiraCommentUploader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/UrlOpener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/UrlOpener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/WebDriverManagerUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/WebDriverManagerUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/autoCommit-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/autoCommit-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/autoCommit-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/autoCommit-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/UrlOpener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/UrlOpener$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/UrlOpener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/UrlOpener.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

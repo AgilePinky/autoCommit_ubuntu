@@ -1,6 +1,7 @@
 package com.example;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,14 +12,27 @@ public class UrlOpener {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("URL Opener");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(350, 250);
+            frame.setSize(400, 300);
 
             JTextField urlField = new JTextField(30);
+
             JCheckBox checkRRSCommit = new JCheckBox("RRS");
             JCheckBox checkFCSCommit = new JCheckBox("FCS");
+            JCheckBox checkAnother1 = new JCheckBox("Option 1");
+            JCheckBox checkAnother2 = new JCheckBox("Option 2");
+            JCheckBox checkAnother3 = new JCheckBox("Option 3");
+            JCheckBox checkAnother4 = new JCheckBox("Option 4");
 
             JButton openButton = new JButton("Выполнить действия");
             JButton sendInJiraButton = new JButton("Отправить коммент");
+
+            JPanel checkBoxPanel = new JPanel(new GridLayout(0, 4)); // 0 строк, 4 столбца
+            checkBoxPanel.add(checkRRSCommit);
+            checkBoxPanel.add(checkFCSCommit);
+            checkBoxPanel.add(checkAnother1);
+            checkBoxPanel.add(checkAnother2);
+            checkBoxPanel.add(checkAnother3);
+            checkBoxPanel.add(checkAnother4);
 
             openButton.addActionListener(new ActionListener() {
                 @Override
@@ -43,15 +57,17 @@ public class UrlOpener {
                     JiraCommentUploader.sendInJira(jiraUrl, username, password, imagePath, comment);
                 }
             });
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Центрируем кнопки
+            buttonPanel.add(openButton);
+            buttonPanel.add(sendInJiraButton);
 
-            JPanel panel = new JPanel();
-            panel.add(urlField);
-            panel.add(checkRRSCommit);
-            panel.add(checkFCSCommit);
-            panel.add(openButton);
-            panel.add(sendInJiraButton);
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // Вертикальная компоновка
+            mainPanel.add(urlField);
+            mainPanel.add(checkBoxPanel);
+            mainPanel.add(buttonPanel);
 
-            frame.getContentPane().add(panel);
+            frame.getContentPane().add(mainPanel);
             frame.setVisible(true);
         });
     }
