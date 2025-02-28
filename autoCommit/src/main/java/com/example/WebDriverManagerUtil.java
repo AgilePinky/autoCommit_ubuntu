@@ -1,5 +1,5 @@
 package com.example;
-
+import java.lang.InterruptedException;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,9 +8,11 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.JavascriptExecutor;
 
 import javax.swing.*;
 import java.time.Duration;
@@ -18,8 +20,7 @@ import java.time.Duration;
 public class WebDriverManagerUtil {
     private static boolean screenshotTaken = false;
 
-    public static void openWebpage(String url, boolean checkTextInput, boolean checkEmailField,
-                                   boolean checkPasswordField, boolean checkRRSCommit,
+    public static void openWebpage(String url, boolean checkRRSCommit,
                                    boolean checkFCSCommit) {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
@@ -64,10 +65,10 @@ public class WebDriverManagerUtil {
         }
     }
 
-    private static void checkRRS(WebDriver driver) {
+    private static void checkRRS(WebDriver driver) throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-service-7599dbf988-z4bwb')]")));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]")));
             System.out.println("Элемент RRS найден");
             screenshotTaken = false;
             // Находим элемент, на который нужно навести курсор
@@ -80,20 +81,20 @@ public class WebDriverManagerUtil {
             Actions actions = new Actions(driver);
 
             // Наводим курсор на элемент
-            actions.moveToElement(hoverElement).perform();
+            actions.moveToElement(hoverElement).pause(Duration.ofMillis(500)).perform();
             System.out.println("Наводим курсор на элемент");
 
-            // Ожидаем, пока кнопка станет доступной
-            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@aria-label='Filter for value']")));
-            System.out.println("Ожидаем, пока кнопка станет доступной");
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            WebElement button = (WebElement) js.executeScript("return arguments[0]",
+                    wait.until(ExpectedConditions.presenceOfElementLocated
+                            (By.xpath("//div[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]/../..//button[@aria-label='Filter for value']"))));
+            System.out.println("Кнопка активна: " + button.isEnabled());
 
-            // Кликаем на кнопку
-            button.click();
-            System.out.println("Кликаем на кнопку");
-
+            js.executeScript("arguments[0].click();", button);
+            System.out.println("Клик по кнопке");
 
             String actualTextInput = textInputElement.getText();
-            if (actualTextInput.equals("data-routing-service-7599dbf988-z4bwb")) {
+            if (actualTextInput.equals("data-routing-scheduler-688c4666d4-n4wg8")) {
                 if (!screenshotTaken) {
                     JOptionPane.showMessageDialog(null, "Совпадает RRS");
                     ScreenshotUtilUbuntu.takeScreenshotUbuntu("RRS.png");
@@ -111,12 +112,38 @@ public class WebDriverManagerUtil {
         }
     }
 
-    private static void checkFCS(WebDriver driver) {
+    private static void checkFCS(WebDriver driver) throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
-            System.out.println("Элемент FCS найден");
-            screenshotTaken = false;
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            WebElement textInputElement = null;
+            boolean elementFound = false;
+            Thread.sleep(5000);
+
+            System.out.println("Цикл прокручивания");
+
+            while (!elementFound) {
+                try {
+                    textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
+
+                    elementFound = true; // Если элемент найден, устанавливаем флаг
+                    System.out.println("Элемент FCS найден");
+
+                } catch (TimeoutException e) {
+                    // Если элемент не найден, прокручиваем вниз
+                    System.out.println("Листаем");
+                    js.executeScript("window.scrollBy(0, 1000);"); // Прокрутка на 1000 пикселей вниз
+                    Thread.sleep(500); // Небольшая пауза, чтобы страница успела прокрутиться
+                }
+            }
+
+            //WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
+
+            // Прокручиваем элемент в видимую область
+            if (textInputElement != null) {
+                js.executeScript("arguments[0].scrollIntoView(true);", textInputElement);
+                Thread.sleep(500); // Небольшая пауза, чтобы страница успела прокрутиться
+            }
 
             // Находим элемент, на который нужно навести курсор
             WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -128,16 +155,16 @@ public class WebDriverManagerUtil {
             Actions actions = new Actions(driver);
 
             // Наводим курсор на элемент
-            actions.moveToElement(hoverElement).perform();
+            actions.moveToElement(hoverElement).pause(Duration.ofMillis(500)).perform();
             System.out.println("Наводим курсор на элемент");
 
-            // Ожидаем, пока кнопка станет доступной
-            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@aria-label='Filter for value']")));
-            System.out.println("Ожидаем, пока кнопка станет доступной");
+            WebElement button = (WebElement) js.executeScript("return arguments[0]",
+                    wait.until(ExpectedConditions.presenceOfElementLocated
+                            (By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]/../..//button[@aria-label='Filter for value']"))));
+            System.out.println("Кнопка активна: " + button.isEnabled());
 
-            // Кликаем на кнопку
-            button.click();
-            System.out.println("Кликаем на кнопку");
+            js.executeScript("arguments[0].click();", button);
+            System.out.println("Клик по кнопке");
 
             String actualTextInput = textInputElement.getText();
             if (actualTextInput.equals("front-content-5cd994856b-rs6ng")) {
