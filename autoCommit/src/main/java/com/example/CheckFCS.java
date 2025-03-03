@@ -1,11 +1,8 @@
 package com.example;
-import java.awt.*;
 import java.lang.InterruptedException;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.NoSuchElementException;
@@ -17,18 +14,13 @@ import org.openqa.selenium.JavascriptExecutor;
 
 import javax.swing.*;
 import java.time.Duration;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyEvent;
 
-public class WebDriverManagerUtil  {
+public class CheckFCS {
     private static boolean screenshotTaken = false;
 
-    public static void openWebpage(String url, boolean checkRRSCommit,
-                                   boolean checkFCSCommit) throws AWTException, InterruptedException{
+    public static void openWebpage(String url, boolean checkFCSCommit) {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
-
 
         try {
             // Открытие веб-страницы
@@ -39,10 +31,6 @@ public class WebDriverManagerUtil  {
 
             // Выполнение входа в систему
             if (performLogin(driver)) {
-                // Проверяем RRS
-                if (checkRRSCommit) {
-                    checkRRS(driver);
-                }
                 // Проверяем FCS
                 if (checkFCSCommit) {
                     checkFCS(driver);
@@ -70,58 +58,7 @@ public class WebDriverManagerUtil  {
         }
     }
 
-    private static void checkRRS(WebDriver driver) throws InterruptedException {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]")));
-            System.out.println("Элемент RRS найден");
-            screenshotTaken = false;
-            // Находим элемент, на который нужно навести курсор
-            WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(., 'nexus.devtcn.tech/data-routing-service')]")
-            ));
-            System.out.println("Находим элемент, на который нужно навести курсор");
-
-            // Создаем объект Actions для выполнения действий
-            Actions actions = new Actions(driver);
-
-            // Наводим курсор на элемент
-            actions.moveToElement(hoverElement).pause(Duration.ofMillis(500)).perform();
-            System.out.println("Наводим курсор на элемент");
-
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            WebElement button = (WebElement) js.executeScript("return arguments[0]",
-                    wait.until(ExpectedConditions.presenceOfElementLocated
-                            (By.xpath("//div[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]/../..//button[@aria-label='Filter for value']"))));
-            System.out.println("Кнопка активна: " + button.isEnabled());
-
-            js.executeScript("arguments[0].click();", button);
-            System.out.println("Клик по кнопке");
-
-            String actualTextInput = textInputElement.getText();
-            if (actualTextInput.equals("data-routing-scheduler-688c4666d4-n4wg8")) {
-                if (!screenshotTaken) {
-                    JOptionPane.showMessageDialog(null, "Совпадает RRS");
-                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("RRS.png");
-                    screenshotTaken = true; // Устанавливаем флаг в true
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
-            }
-            // Обновляем страницу после создания скриншота
-            driver.navigate().refresh();
-            System.out.println("Страница обновлена");
-
-        } catch (NoSuchElementException e) {
-            JOptionPane.showMessageDialog(null, "Элемент 'RRS' не найден.");
-        }
-    }
-
-    private static void checkFCS(WebDriver driver) throws AWTException, InterruptedException {
-
-        // Создаем экземпляр Robot
-        Robot robot = new Robot();
-        int currentScrollPosition = 0;
+    private static void checkFCS(WebDriver driver) throws InterruptedException {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -141,11 +78,7 @@ public class WebDriverManagerUtil  {
                 } catch (TimeoutException e) {
                     // Если элемент не найден, прокручиваем вниз
                     System.out.println("Листаем");
-//                    js.executeScript("window.scrollBy(0, 400);"); // Прокрутка на 1000 пикселей вниз
-                    // Прокручиваем страницу вниз с помощью нажатия клавиш
-                    robot.keyPress(KeyEvent.VK_PAGE_DOWN);
-                    robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
-
+                    js.executeScript("window.scrollBy(0, 1000);"); // Прокрутка на 1000 пикселей вниз
                     Thread.sleep(500); // Небольшая пауза, чтобы страница успела прокрутиться
                 }
             }

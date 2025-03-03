@@ -1,15 +1,17 @@
 package com.example;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.*;
+import java.io.FileWriter;
 import java.time.Duration;
+import java.util.Set;
 
 public class JiraCommentUploader {
     public static void sendInJira(String urlJira, String username, String password, String imagePath, String comment) {
@@ -21,11 +23,31 @@ public class JiraCommentUploader {
             driver.get(urlJira);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+//            // Загрузка куки
+//            try (BufferedReader reader = new BufferedReader(new FileReader("cookies.txt"))) {
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    String[] cookieData = line.split(";");
+//                    Cookie cookie = new Cookie(cookieData[0], cookieData[1]);
+//                    driver.manage().addCookie(cookie);
+//                }
+//            }
+
+            // Обновите страницу, чтобы авторизоваться
+//            driver.navigate().refresh();
+
             // Ввод логина и пароля
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys(username);
             driver.findElement(By.id("login-submit")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys(password);
             driver.findElement(By.id("login-submit")).click();
+
+//            Set<Cookie> cookies = driver.manage().getCookies();
+//            try (FileWriter writer = new FileWriter("cookies.txt")) {
+//                for (Cookie cookie : cookies) {
+//                    writer.write(cookie.getName() + ";" + cookie.getValue() + "\n");
+//                }
+//            }
 
             // Найдите текстовое поле для комментариев и добавьте текст
             WebElement commentField = wait.until(ExpectedConditions.visibilityOfElementLocated

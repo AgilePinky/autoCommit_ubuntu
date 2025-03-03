@@ -4,6 +4,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.lang.InterruptedException;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.JavascriptExecutor;
+
+import javax.swing.*;
+import java.time.Duration;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyEvent;
 
 public class UrlOpener {
 //    private static final String URL = "https://www.qa-practice.com/elements/input/simple";
@@ -40,8 +62,17 @@ public class UrlOpener {
                     //String url = urlField.getText();
                     String url = ("https://grafana.devtcn.tech/d/1CiDdN4Sk/stage-image-list?orgId=1&var-namespace=devtcn&var-pod=All&var-container=All&viewPanel=4&var-Filters=image%7C%3D%7Cnexus.devtcn.tech%2Freact-renderer-service:ca-TDF-12474-cat-6b2d9cae");
                     //String url = ("https://grafana.devtcn.tech/d/1CiDdN4Sk/stage-image-list?orgId=1&var-namespace=devtcn&var-pod=All&var-container=All&viewPanel=4&var-Filters=image%7C%3D%7Cnexus.devtcn.tech%2Ffront-content-service:ca-devstand5-3bbdf0c3");
-                    WebDriverManagerUtil.openWebpage(url,
-                            checkRRSCommit.isSelected(), checkFCSCommit.isSelected());
+                    try {
+                        WebDriverManagerUtil.openWebpage(url, checkRRSCommit.isSelected(), checkFCSCommit.isSelected());
+                    } catch (AWTException ex) {
+                        System.err.println("Ошибка AWT: " + ex.getMessage());
+                    } catch (InterruptedException ex) {
+                        System.err.println("Ошибка Interrupted: " + ex.getMessage());
+                    } catch (Exception ex) {
+                        System.err.println("Произошла ошибка: " + ex.getMessage());
+                    }
+//                    WebDriverManagerUtil.openWebpage(url,
+//                            checkRRSCommit.isSelected(), checkFCSCommit.isSelected()) ;
                 }
             });
             sendInJiraButton.addActionListener(new ActionListener() {
