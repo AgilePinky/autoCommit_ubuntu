@@ -16,113 +16,57 @@ import javax.swing.*;
 import java.time.Duration;
 
 public class CheckFCS {
-    private static boolean screenshotTaken = false;
+    private WebDriver driver;
 
-    public static void openWebpage(String url, boolean checkFCSCommit) {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-
-        try {
-            // Открытие веб-страницы
-            driver.get(url);
-
-            // Делать окно полным экраном
-            driver.manage().window().maximize(); // или driver.manage().window().fullscreen(); для полного экрана
-
-            // Выполнение входа в систему
-            if (performLogin(driver)) {
-                // Проверяем FCS
-                if (checkFCSCommit) {
-                    checkFCS(driver);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ошибка при открытии URL: " + url);
-        } finally {
-            driver.quit();
-        }
+    public CheckFCS(WebDriver driver) {
+        this.driver = driver;
     }
 
-    private static boolean performLogin(WebDriver driver) {
+    public void execute() throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='user']"))).sendKeys("i.sharipov");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='current-password']"))).sendKeys("m6JHWgSANhrLbGkta8QUdn");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Login button']"))).click();
-            System.out.println("Вход успешный");
-            return true;
-        } catch (NoSuchElementException e) {
-            JOptionPane.showMessageDialog(null, "Ошибка при входе в систему.");
-            return false;
-        }
-    }
-
-    private static void checkFCS(WebDriver driver) throws InterruptedException {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
-            Thread.sleep(5000);
+            Thread.sleep(2000);
 
-            System.out.println("Цикл прокручивания");
+            System.out.println("Поиск элемента FCS");
 
+            WebElement scrollableElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@style, 'overflow: hidden auto')]")));
+            System.out.println("Найден на странице элемент списка логов");
             while (!elementFound) {
                 try {
                     textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
-
-                    elementFound = true; // Если элемент найден, устанавливаем флаг
+                    elementFound = true;
                     System.out.println("Элемент FCS найден");
 
                 } catch (TimeoutException e) {
-                    // Если элемент не найден, прокручиваем вниз
-                    System.out.println("Листаем");
-                    js.executeScript("window.scrollBy(0, 1000);"); // Прокрутка на 1000 пикселей вниз
-                    Thread.sleep(500); // Небольшая пауза, чтобы страница успела прокрутиться
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollTop += 800;", scrollableElement);
+                    System.out.println("Скролл на 800px");
+                    Thread.sleep(200);
                 }
             }
 
-            //WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
-
-            // Прокручиваем элемент в видимую область
-            if (textInputElement != null) {
-                js.executeScript("arguments[0].scrollIntoView(true);", textInputElement);
-                Thread.sleep(500); // Небольшая пауза, чтобы страница успела прокрутиться
-            }
-
-            // Находим элемент, на который нужно навести курсор
-            WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(., 'nexus.devtcn.tech/front-content-service')]")
-            ));
+            WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(., 'nexus.devtcn.tech/front-content-service')]")));
             System.out.println("Находим элемент, на который нужно навести курсор");
 
-            // Создаем объект Actions для выполнения действий
             Actions actions = new Actions(driver);
-
-            // Наводим курсор на элемент
-            actions.moveToElement(hoverElement).pause(Duration.ofMillis(500)).perform();
+            actions.moveToElement(hoverElement).pause(Duration.ofMillis(100)).perform();
             System.out.println("Наводим курсор на элемент");
 
             WebElement button = (WebElement) js.executeScript("return arguments[0]",
-                    wait.until(ExpectedConditions.presenceOfElementLocated
-                            (By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]/../..//button[@aria-label='Filter for value']"))));
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]/../..//button[@aria-label='Filter for value']"))));
             System.out.println("Кнопка активна: " + button.isEnabled());
-
             js.executeScript("arguments[0].click();", button);
             System.out.println("Клик по кнопке");
 
             String actualTextInput = textInputElement.getText();
             if (actualTextInput.equals("front-content-5cd994856b-rs6ng")) {
-                if (!screenshotTaken) {
-                    JOptionPane.showMessageDialog(null, "Совпадает FCS");
-                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("FCS.png");
-                    screenshotTaken = true; // Устанавливаем флаг в true
-                }
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("FCS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }
-            // Обновляем страницу после создания скриншота
+
             driver.navigate().refresh();
             System.out.println("Страница обновлена");
 

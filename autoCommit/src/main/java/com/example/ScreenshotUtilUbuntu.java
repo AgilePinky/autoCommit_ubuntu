@@ -47,7 +47,7 @@ public class ScreenshotUtilUbuntu {
             System.out.println("Создаем объект Robot");
 
             // Задержка перед созданием скриншота (например, 0.5 секунды)
-            Thread.sleep(500);
+            Thread.sleep(250);
 
             // Делаем скриншот
             BufferedImage screenFullImage = robot.createScreenCapture(screenRect);

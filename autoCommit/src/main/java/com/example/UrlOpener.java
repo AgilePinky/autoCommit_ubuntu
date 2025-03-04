@@ -38,23 +38,18 @@ public class UrlOpener {
 
             JTextField urlField = new JTextField(30);
 
+
             JCheckBox checkRRSCommit = new JCheckBox("RRS");
+            JCheckBox checkDRSCommit = new JCheckBox("DRS");
             JCheckBox checkFCSCommit = new JCheckBox("FCS");
-            JCheckBox checkAnother1 = new JCheckBox("Option 1");
-            JCheckBox checkAnother2 = new JCheckBox("Option 2");
-            JCheckBox checkAnother3 = new JCheckBox("Option 3");
-            JCheckBox checkAnother4 = new JCheckBox("Option 4");
 
             JButton openButton = new JButton("Выполнить действия");
             JButton sendInJiraButton = new JButton("Отправить коммент");
 
             JPanel checkBoxPanel = new JPanel(new GridLayout(0, 4)); // 0 строк, 4 столбца
             checkBoxPanel.add(checkRRSCommit);
+            checkBoxPanel.add(checkDRSCommit);
             checkBoxPanel.add(checkFCSCommit);
-            checkBoxPanel.add(checkAnother1);
-            checkBoxPanel.add(checkAnother2);
-            checkBoxPanel.add(checkAnother3);
-            checkBoxPanel.add(checkAnother4);
 
             openButton.addActionListener(new ActionListener() {
                 @Override
@@ -63,7 +58,7 @@ public class UrlOpener {
                     String url = ("https://grafana.devtcn.tech/d/1CiDdN4Sk/stage-image-list?orgId=1&var-namespace=devtcn&var-pod=All&var-container=All&viewPanel=4&var-Filters=image%7C%3D%7Cnexus.devtcn.tech%2Freact-renderer-service:ca-TDF-12474-cat-6b2d9cae");
                     //String url = ("https://grafana.devtcn.tech/d/1CiDdN4Sk/stage-image-list?orgId=1&var-namespace=devtcn&var-pod=All&var-container=All&viewPanel=4&var-Filters=image%7C%3D%7Cnexus.devtcn.tech%2Ffront-content-service:ca-devstand5-3bbdf0c3");
                     try {
-                        WebDriverManagerUtil.openWebpage(url, checkRRSCommit.isSelected(), checkFCSCommit.isSelected());
+                        WebDriverManagerUtil.openWebpage(url, checkRRSCommit.isSelected(), checkDRSCommit.isSelected(), checkFCSCommit.isSelected());
                     } catch (AWTException ex) {
                         System.err.println("Ошибка AWT: " + ex.getMessage());
                     } catch (InterruptedException ex) {

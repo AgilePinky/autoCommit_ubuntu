@@ -1,8 +1,12 @@
 com/example/ScreenshotUtilUbuntu.class
 com/example/UrlOpener$1.class
+com/example/SaveCookies.class
 com/example/ScreenshotUtil.class
+com/example/CheckRRS.class
+com/example/CheckDRS.class
 com/example/UrlOpener$2.class
 com/example/WDMU2.class
 com/example/JiraCommentUploader.class
 com/example/UrlOpener.class
+com/example/CheckFCS.class
 com/example/WebDriverManagerUtil.class
