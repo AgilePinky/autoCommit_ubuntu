@@ -24,7 +24,8 @@ public class CheckFCS {
 
     public void execute() throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
@@ -36,7 +37,7 @@ public class CheckFCS {
             System.out.println("Найден на странице элемент списка логов");
             while (!elementFound) {
                 try {
-                    textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]")));
+                    textInputElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content')]")));
                     elementFound = true;
                     System.out.println("Элемент FCS найден");
 
@@ -55,14 +56,14 @@ public class CheckFCS {
             System.out.println("Наводим курсор на элемент");
 
             WebElement button = (WebElement) js.executeScript("return arguments[0]",
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'front-content-5cd994856b-rs6ng')]/../..//button[@aria-label='Filter for value']"))));
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'front-content')]/../..//button[@aria-label='Filter for value']"))));
             System.out.println("Кнопка активна: " + button.isEnabled());
             js.executeScript("arguments[0].click();", button);
             System.out.println("Клик по кнопке");
 
             String actualTextInput = textInputElement.getText();
-            if (actualTextInput.equals("front-content-5cd994856b-rs6ng")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("FCS.png");
+            if (actualTextInput.contains("front-content")) {
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("1a_FCS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }

@@ -23,7 +23,8 @@ public class CheckDRS {
 
     public void execute() throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
@@ -35,7 +36,7 @@ public class CheckDRS {
             System.out.println("Найден на странице элемент списка логов");
             while (!elementFound) {
                 try {
-                    textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]")));
+                    textInputElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-scheduler')]")));
                     elementFound = true;
                     System.out.println("Элемент DRS найден");
 
@@ -54,14 +55,14 @@ public class CheckDRS {
             System.out.println("Наводим курсор на элемент");
 
             WebElement button = (WebElement) js.executeScript("return arguments[0]",
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-scheduler-688c4666d4-n4wg8')]/../..//button[@aria-label='Filter for value']"))));
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-scheduler')]/../..//button[@aria-label='Filter for value']"))));
             System.out.println("Кнопка активна: " + button.isEnabled());
             js.executeScript("arguments[0].click();", button);
             System.out.println("Клик по кнопке");
 
             String actualTextInput = textInputElement.getText();
-            if (actualTextInput.equals("data-routing-scheduler-688c4666d4-n4wg8")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("DRS.png");
+            if (actualTextInput.contains("data-routing-scheduler")) {
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("1a_DRS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }

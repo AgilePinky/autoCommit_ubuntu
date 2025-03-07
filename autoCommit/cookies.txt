@@ -1,4 +1,4 @@
 __cuid;5e54933378d94022a2408058a774fd51
-ajs_anonymous_id;%22dd9a2e4d-d472-4ea4-b872-9271852fbae4%22
-atlassian.account.xsrf.token;66f88090-72cb-43cf-8cfb-b2782b037839
-atlassian.account.ffs.id;7cff579d-2ac5-4cde-836c-81d14c208325
+ajs_anonymous_id=dd9a2e4d-d472-4ea4-b872-9271852fbae4%22
+atlassian.account.xsrf.token=66f88090-72cb-43cf-8cfb-b2782b037839
+atlassian.account.ffs.id=7cff579d-2ac5-4cde-836c-81d14c208325

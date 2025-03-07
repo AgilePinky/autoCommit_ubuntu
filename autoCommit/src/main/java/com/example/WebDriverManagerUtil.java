@@ -39,7 +39,7 @@ public class WebDriverManagerUtil  {
             // Выполнение входа в систему
             if (performLogin(driver)) {
                 // Проверяем RRS
-                if (checkDRSCommit) {
+                if (checkRRSCommit) {
                     CheckRRS checkRRS = new CheckRRS(driver);
                     checkRRS.execute();
                 }

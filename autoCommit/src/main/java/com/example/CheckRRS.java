@@ -23,7 +23,8 @@ public class CheckRRS {
 
     public void execute() throws InterruptedException {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
@@ -35,7 +36,7 @@ public class CheckRRS {
             System.out.println("Найден на странице элемент списка логов");
             while (!elementFound) {
                 try {
-                    textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'react-renderer-service-59dc8d956f-z9lg2')]")));
+                    textInputElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'react-renderer-service')]")));
                     elementFound = true;
                     System.out.println("Элемент RRS найден");
 
@@ -54,14 +55,14 @@ public class CheckRRS {
             System.out.println("Наводим курсор на элемент");
 
             WebElement button = (WebElement) js.executeScript("return arguments[0]",
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'react-renderer-service-59dc8d956f-z9lg2')]/../..//button[@aria-label='Filter for value']"))));
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(), 'react-renderer-service')]/../..//button[@aria-label='Filter for value']"))));
             System.out.println("Кнопка активна: " + button.isEnabled());
             js.executeScript("arguments[0].click();", button);
             System.out.println("Клик по кнопке");
 
             String actualTextInput = textInputElement.getText();
-            if (actualTextInput.equals("react-renderer-service-59dc8d956f-z9lg2")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("RRS.png");
+            if (actualTextInput.contains("react-renderer-service")) {
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("1a_RRS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }
