@@ -24,7 +24,7 @@ public class CheckDRS {
     public void execute() throws InterruptedException {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofMillis(250));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
@@ -62,7 +62,7 @@ public class CheckDRS {
 
             String actualTextInput = textInputElement.getText();
             if (actualTextInput.contains("data-routing-scheduler")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("1a_DRS.png");
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("/home/ivan/Изображения/1a_Commits/1a_DRS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }

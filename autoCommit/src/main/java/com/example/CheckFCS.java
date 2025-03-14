@@ -25,7 +25,7 @@ public class CheckFCS {
     public void execute() throws InterruptedException {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofMillis(250));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
@@ -63,7 +63,7 @@ public class CheckFCS {
 
             String actualTextInput = textInputElement.getText();
             if (actualTextInput.contains("front-content")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("1a_FCS.png");
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("/home/ivan/Изображения/1a_FCS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }

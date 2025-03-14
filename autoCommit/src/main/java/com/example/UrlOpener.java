@@ -40,16 +40,16 @@ public class UrlOpener {
 
 
             JCheckBox checkRRSCommit = new JCheckBox("RRS");
-            JCheckBox checkDRSCommit = new JCheckBox("DRS");
             JCheckBox checkFCSCommit = new JCheckBox("FCS");
+            JCheckBox checkDRSCommit = new JCheckBox("DRS");
 
             JButton openButton = new JButton("Выполнить действия");
             JButton sendInJiraButton = new JButton("Отправить коммент");
 
             JPanel checkBoxPanel = new JPanel(new GridLayout(0, 4)); // 0 строк, 4 столбца
-            checkBoxPanel.add(checkRRSCommit);
             checkBoxPanel.add(checkDRSCommit);
             checkBoxPanel.add(checkFCSCommit);
+            checkBoxPanel.add(checkRRSCommit);
 
             openButton.addActionListener(new ActionListener() {
                 @Override
@@ -80,7 +80,8 @@ public class UrlOpener {
                     String imagePath = "/home/ivan/Загрузки/Workspace/java/autoCommit_ubuntu/autoCommit/RRS.png";
                     String comment = "Ваш комментарий с изображением";
                     // Создайте экземпляр класса JiraCommentUploader
-                    JiraCommentUploader.sendInJira(jiraUrl, username, password, imagePath, comment);
+                    JiraCommentUploader.sendInJira(jiraUrl, username, password, imagePath, comment,
+                            checkRRSCommit.isSelected(), checkDRSCommit.isSelected(), checkFCSCommit.isSelected());
                 }
             });
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Центрируем кнопки
