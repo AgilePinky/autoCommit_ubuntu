@@ -29,114 +29,103 @@ public class UploadFCS {
         this.driver = driver;
     }
 
-    public void execute(String urlJira, String imagePath, String comment, boolean firstUpload) {
+    public void execute(String urlJira, String imagePath, String comment, boolean firstUploaded) {
         System.out.println("UploadFCS");
 
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-            if (firstUpload){
+            if (!firstUploaded){
                 // Найдите текстовое поле для комментариев и добавьте текст
+                System.out.println("firstUploaded = true\n");
                 WebElement commentField = wait.until(ExpectedConditions.visibilityOfElementLocated
                         (By.xpath("//button[text()='Добавить комментарий...']"))); // Замените на правильный ID
                 System.out.println("Найдено поле коммента\n");
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", commentField);
                 System.out.println("Кликнуто на поле коммента\n");
-            }
-            if (!firstUpload){
-                // Найдите текстовое поле для комментариев и добавьте текст
-                WebElement commentField = wait.until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//button[text()='Введите /ai для вызова Atlassian Intelligence или @, чтобы упомянуть и уведомить пользователя.']"))); // Замените на правильный ID
-                System.out.println("Найдено поле коммента\n");
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", commentField);
-                System.out.println("Кликнуто на поле коммента\n");
-            }
-            WebElement commentFieldOpened = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ak-editor-textarea")));
-            commentFieldOpened.sendKeys(comment);
-            System.out.println("Оставлен коммент текстовый в поле коммента\n");
+                WebElement commentFieldOpened = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ak-editor-textarea")));
+                commentFieldOpened.sendKeys(comment);
+                System.out.println("Оставлен коммент текстовый в поле коммента\n");
+                // Найдите элемент для загрузки файла и кликните по нему
+                WebElement uploadElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[aria-label='Добавить изображение, видео или файл']")));
+                uploadElement.click();
+                System.out.println("Элемент загрузки картинок найден и кликнут\n");
 
-            // Найдите элемент для загрузки файла и кликните по нему
-            WebElement uploadElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[aria-label='Добавить изображение, видео или файл']")));
-            uploadElement.click();
+                Robot robot = new Robot();
+                Thread.sleep(500); // Даем время, чтобы открылось окно выбора файла
+                String targetFolder = "Изображения";
+                boolean found = false;
 
-            System.out.println("Элемент загрузки картинок найден и кликнут\n");
-
-
-
-
-            Robot robot = new Robot();
-            Thread.sleep(500); // Даем время, чтобы открылось окно выбора файла
-
-            String targetFolder = "Изображения";
-            boolean found = false;
-
-            // Предположим, что папка "Изображения" появится не раньше, чем после нескольких нажатий Tab
-            for (int i = 0; i < 20; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
-                System.out.print("Поиск папки Изображения ");
-                System.out.println(i+1);
-                robot.keyPress(KeyEvent.VK_TAB);
-                robot.keyRelease(KeyEvent.VK_TAB);
-                Thread.sleep(500); // Небольшая пауза между нажатиями
-
-                // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
-                // Предположим, что после 5-10 нажатий будет папка "Изображения"
-                if (i == 7) { // Замените 5 на нужное вам количество для нахождения папки "Изображения"
-                    StringSelection stringSelection = new StringSelection(targetFolder);
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
-
-                    // Нажмите Enter, чтобы перейти в папку "Изображения"
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    Thread.sleep(1000); // Даем время для загрузки содержимого папки
-                    found = true; // Установим флаг, что папка найдена
-                    break; // Выходим из цикла, так как мы уже перешли в нужную папку
+                // Предположим, что папка "Изображения" появится не раньше, чем после нескольких нажатий Tab
+                for (int i = 0; i < 20; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
+                    System.out.print("Поиск папки Изображения ");
+                    System.out.println(i+1);
+                    robot.keyPress(KeyEvent.VK_TAB);
+                    robot.keyRelease(KeyEvent.VK_TAB);
+                    Thread.sleep(500); // Небольшая пауза между нажатиями
+                    // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
+                    // Предположим, что после 5-10 нажатий будет папка "Изображения"
+                    if (i == 7) { // Замените 5 на нужное вам количество для нахождения папки "Изображения"
+                        StringSelection stringSelection = new StringSelection(targetFolder);
+                        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+                        // Нажмите Enter, чтобы перейти в папку "Изображения"
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                        Thread.sleep(1000); // Даем время для загрузки содержимого папки
+                        found = true; // Установим флаг, что папка найдена
+                        break; // Выходим из цикла, так как мы уже перешли в нужную папку
+                    }
                 }
-            }
-            System.out.println("Открыта папка Изображения");
-            for (int i = 0; i < 20; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
-                System.out.print("Поиск папки Изображения ");
-                System.out.println(i+1);
-                robot.keyPress(KeyEvent.VK_TAB);
-                robot.keyRelease(KeyEvent.VK_TAB);
-                Thread.sleep(1000); // Небольшая пауза между нажатиями
+                System.out.println("Открыта папка Изображения");
 
-                // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
-                // Предположим, что после 5-10 нажатий будет папка "Изображения"
-                if (i == 3) { // Замените 5 на нужное вам количество для нахождения папки "Изображения"
-
-                    Thread.sleep(1000);
-                    // Нажмите Enter, чтобы перейти в папку "1a_Commits"
-                    StringSelection stringSelection = new StringSelection("1a_Commits");
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    System.out.println("Открыта папка 1a_Commits");
-                    Thread.sleep(1000); // Даем время для загрузки содержимого папки
-                    found = true; // Установим флаг, что папка найдена
-                    break; // Выходим из цикла, так как мы уже перешли в нужную папку
+                for (int i = 0; i < 20; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
+                    System.out.print("Поиск папки Изображения ");
+                    System.out.println(i+1);
+                    robot.keyPress(KeyEvent.VK_TAB);
+                    robot.keyRelease(KeyEvent.VK_TAB);
+                    Thread.sleep(500); // Небольшая пауза между нажатиями
+                    // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
+                    // Предположим, что после 5-10 нажатий будет папка "Изображения"
+                    if (i == 3) { // Замените 5 на нужное вам количество для нахождения папки "Изображения"
+                        Thread.sleep(500);
+                        // Нажмите Enter, чтобы перейти в папку "1a_Commits"
+                        StringSelection stringSelection = new StringSelection("1a_Commits");
+                        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                        System.out.println("Открыта папка 1a_Commits");
+                        Thread.sleep(1000); // Даем время для загрузки содержимого папки
+                        found = true; // Установим флаг, что папка найдена
+                        break; // Выходим из цикла, так как мы уже перешли в нужную папку
+                    }
                 }
-            }
 
-            // Если папка не была найдена после 20 итераций
-            if (!found) {
-                System.out.println("Папка \"" + targetFolder + "\" не найдена");
-            }
+                // Если папка не была найдена после 20 итераций
+                if (!found) {
+                    System.out.println("Папка \"" + targetFolder + "\" не найдена");
+                }
+                // Вставьте имя файла, который вы хотите выбрать
+                for (int i = 0; i < 4; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
+                    System.out.print("Прокрутка по навигации ");
+                    System.out.println(i+1);
+                    robot.keyPress(KeyEvent.VK_TAB);
+                    robot.keyRelease(KeyEvent.VK_TAB);
+                    Thread.sleep(500); // Небольшая пауза между нажатиями
+                    // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
+                    // Предположим, что после 5-10 нажатий будет папка "Изображения"
+                }
 
-            // Вставьте имя файла, который вы хотите выбрать
-            for (int i = 0; i < 20; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
-                System.out.print("Выделен файл ");
-                System.out.println(i+1);
-                robot.keyPress(KeyEvent.VK_TAB);
-                robot.keyRelease(KeyEvent.VK_TAB);
-                Thread.sleep(500); // Небольшая пауза между нажатиями
-
-
-                // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
-                // Предположим, что после 5-10 нажатий будет папка "Изображения"
-                if (i == 4) { // Замените 5 на нужное вам количество для нахождения папки "Изображения"
+                // Вставьте имя файла, который вы хотите выбрать
+                for (int i = 0; i < 2; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
+                    System.out.print("Выделен файл ");
+                    System.out.println(i+1);
+                    robot.keyPress(KeyEvent.VK_DOWN);
+                    robot.keyRelease(KeyEvent.VK_DOWN);
+                    Thread.sleep(500); // Небольшая пауза между нажатиями
+                    // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
+                    // Предположим, что после 5-10 нажатий будет папка "Изображения"
                     StringSelection stringSelection = new StringSelection("1a_FCS.png"); // Замените на имя вашего файла
                     Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
-
                     // Подтвердите выбор файла
                     robot.keyPress(KeyEvent.VK_ENTER);
                     robot.keyRelease(KeyEvent.VK_ENTER);
@@ -144,7 +133,75 @@ public class UploadFCS {
                     found = true; // Установим флаг, что папка найдена
                     break; // Выходим из цикла, так как мы уже перешли в нужную папку
                 }
+
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", commentField);
+                System.out.println("Кликнуто на поле коммента\n");
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_UP);
+                robot.keyRelease(KeyEvent.VK_UP);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_UP);
+                robot.keyRelease(KeyEvent.VK_UP);
             }
+            if (firstUploaded){
+                // Найдите текстовое поле для комментариев и добавьте текст
+                System.out.println("firstUploaded = false\n");
+                WebElement commentField = wait.until(ExpectedConditions.visibilityOfElementLocated
+                        (By.xpath("//div[contains(@class, 'ua-chrome ProseMirror pm-table-resizing-plugin')]"))); // Замените на правильный ID
+                System.out.println("Найдено поле коммента\n");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", commentField);
+                System.out.println("Кликнуто на поле коммента\n");
+                WebElement commentFieldOpened = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ak-editor-textarea")));
+                commentFieldOpened.sendKeys(comment);
+                System.out.println("Оставлен коммент текстовый в поле коммента\n");
+                // Найдите элемент для загрузки файла и кликните по нему
+                WebElement uploadElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[aria-label='Добавить изображение, видео или файл']")));
+                uploadElement.click();
+                System.out.println("Элемент загрузки картинок найден и кликнут\n");
+
+                Robot robot = new Robot();
+                Thread.sleep(500); // Даем время, чтобы открылось окно выбора файла
+                String targetFolder = "Изображения";
+                boolean found = false;
+
+                // Вставьте имя файла, который вы хотите выбрать
+                for (int i = 0; i < 20; i++) { // нужно протестировать, чтобы точно узнать, сколько нажатий необходимо
+                    System.out.print("Выделен файл ");
+                    System.out.println(i+1);
+                    robot.keyPress(KeyEvent.VK_TAB);
+                    robot.keyRelease(KeyEvent.VK_TAB);
+                    Thread.sleep(500); // Небольшая пауза между нажатиями
+                    // Поскольку мы не можем проверить отображаемый текст, мы просто будем программировать на удачу
+                    // Предположим, что после 5-10 нажатий будет папка "Изображения"
+                    if (i == 2) { // Замените 5 на нужное вам количество для нахождения папки "Изображения"
+                        StringSelection stringSelection = new StringSelection("1a_FCS.png"); // Замените на имя вашего файла
+                        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+                        // Подтвердите выбор файла
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                        Thread.sleep(500); // Даем время для загрузки содержимого папки
+                        found = true; // Установим флаг, что папка найдена
+                        break; // Выходим из цикла, так как мы уже перешли в нужную папку
+                    }
+                }
+
+                commentField = wait.until(ExpectedConditions.visibilityOfElementLocated
+                        (By.xpath("//div[contains(@class, 'ua-chrome ProseMirror pm-table-resizing-plugin')]"))); // Замените на правильный ID
+                System.out.println("Найдено поле коммента\n");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", commentField);
+                System.out.println("Кликнуто на поле коммента\n");
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_UP);
+                robot.keyRelease(KeyEvent.VK_UP);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_UP);
+                robot.keyRelease(KeyEvent.VK_UP);
+            }
+
 
 //            // После выбора файла нажмите кнопку для отправки комментария
 //            WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submitButtonId"))); // Замените на правильный ID

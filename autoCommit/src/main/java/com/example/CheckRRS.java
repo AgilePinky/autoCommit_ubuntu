@@ -43,7 +43,7 @@ public class CheckRRS {
                 } catch (TimeoutException e) {
                     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollTop += 800;", scrollableElement);
                     System.out.println("Скролл на 800px");
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 }
             }
 
@@ -62,7 +62,7 @@ public class CheckRRS {
 
             String actualTextInput = textInputElement.getText();
             if (actualTextInput.contains("react-renderer-service")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("/home/ivan/Изображения/1a_RRS.png");
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("/home/ivan/Изображения/1a_Commits/1a_RRS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }

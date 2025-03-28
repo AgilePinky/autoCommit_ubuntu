@@ -34,7 +34,7 @@ public class UrlOpener {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("URL Opener");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 300);
+            frame.setSize(400, 150);
 
             JTextField urlField = new JTextField(30);
 
@@ -43,8 +43,8 @@ public class UrlOpener {
             JCheckBox checkFCSCommit = new JCheckBox("FCS");
             JCheckBox checkDRSCommit = new JCheckBox("DRS");
 
-            JButton openButton = new JButton("Выполнить действия");
-            JButton sendInJiraButton = new JButton("Отправить коммент");
+            JButton openButton = new JButton("Сделать скриншот");
+            JButton sendInJiraButton = new JButton("Отправить комментарий");
 
             JPanel checkBoxPanel = new JPanel(new GridLayout(0, 4)); // 0 строк, 4 столбца
             checkBoxPanel.add(checkDRSCommit);

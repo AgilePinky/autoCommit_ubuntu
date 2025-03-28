@@ -44,7 +44,7 @@ public class CheckFCS {
                 } catch (TimeoutException e) {
                     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollTop += 800;", scrollableElement);
                     System.out.println("Скролл на 800px");
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 }
             }
 
@@ -63,7 +63,7 @@ public class CheckFCS {
 
             String actualTextInput = textInputElement.getText();
             if (actualTextInput.contains("front-content")) {
-                ScreenshotUtilUbuntu.takeScreenshotUbuntu("/home/ivan/Изображения/1a_FCS.png");
+                ScreenshotUtilUbuntu.takeScreenshotUbuntu("/home/ivan/Изображения/1a_Commits/1a_FCS.png");
             } else {
                 JOptionPane.showMessageDialog(null, "Текстовое поле не совпадает: " + actualTextInput);
             }

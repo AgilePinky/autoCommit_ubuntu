@@ -43,7 +43,7 @@ public class CheckDRS {
                 } catch (TimeoutException e) {
                     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollTop += 800;", scrollableElement);
                     System.out.println("Скролл на 800px");
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 }
             }
 

@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JiraCommentUploader {
-    public static boolean firstUpload = true;
+    public static boolean firstUploaded = false;
     public static void sendInJira(String urlJira, String username, String password, String imagePath, String comment,
                                   boolean checkRRSCommit, boolean checkDRSCommit, boolean checkFCSCommit) {
         WebDriverManager.chromedriver().setup();
@@ -72,20 +72,20 @@ public class JiraCommentUploader {
                     // Проверяем DRS
                     if (checkDRSCommit) {
                         UploadDRS UploadDRS = new UploadDRS(driver);
-                        UploadDRS.execute(urlJira, imagePath, comment, firstUpload);
-                        firstUpload = false;
+                        UploadDRS.execute(urlJira, imagePath, comment, firstUploaded);
+                        firstUploaded = true;
                     }
                     // Проверяем FCS
                     if (checkFCSCommit) {
                         UploadFCS UploadFCS = new UploadFCS(driver);
-                        UploadFCS.execute(urlJira, imagePath, comment, firstUpload);
-                        firstUpload = false;
+                        UploadFCS.execute(urlJira, imagePath, comment, firstUploaded);
+                        firstUploaded = true;
                     }
                     // Проверяем RRS
                     if (checkRRSCommit) {
                         UploadRRS UploadRRS = new UploadRRS(driver);
-                        UploadRRS.execute(urlJira, imagePath, comment, firstUpload);
-                        firstUpload = false;
+                        UploadRRS.execute(urlJira, imagePath, comment, firstUploaded);
+                        firstUploaded = true;
                     }
                 }
             } catch (Exception e) {

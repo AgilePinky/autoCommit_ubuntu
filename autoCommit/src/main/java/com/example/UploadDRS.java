@@ -137,9 +137,9 @@ public class UploadDRS {
                 }
             }
 
-//            // После выбора файла нажмите кнопку для отправки комментария
-//            WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submitButtonId"))); // Замените на правильный ID
-//            submitButton.click();
+            // После выбора файла нажмите кнопку для отправки комментария
+            WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submitButtonId"))); // Замените на правильный ID
+            submitButton.click();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Ошибка при открытии URL: " + urlJira);
