@@ -24,18 +24,22 @@ public class ScreenshotUtilUbuntu {
                 screenNames[i] = "Экран " + (i + 1);
             }
 
-            // Позволяем пользователю выбрать экран
-            int screenIndex = JOptionPane.showOptionDialog(null, "Выберите экран для скриншота:",
-                    "Выбор экрана", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, screenNames, screenNames[0]);
+//            // Позволяем пользователю выбрать экран
+//            int screenIndex = JOptionPane.showOptionDialog(null, "Выберите экран для скриншота:",
+//                    "Выбор экрана", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+//                    null, screenNames, screenNames[0]);
 
-            if (screenIndex < 0) {
-                System.out.println("Выбор экрана отменен.");
-                return;
-            }
+//            if (screenIndex < 0) {
+//                System.out.println("Выбор экрана отменен.");
+//                return;
+//            }
+
+//            // Получаем размер выбранного экрана
+//            Rectangle screenRect = screens[screenIndex].getDefaultConfiguration().getBounds();
+//            System.out.println("Получаем размер экрана: " + screenRect);
 
             // Получаем размер выбранного экрана
-            Rectangle screenRect = screens[screenIndex].getDefaultConfiguration().getBounds();
+            Rectangle screenRect = screens[0].getDefaultConfiguration().getBounds();
             System.out.println("Получаем размер экрана: " + screenRect);
 
             // Создаем объект Robot
@@ -43,7 +47,7 @@ public class ScreenshotUtilUbuntu {
             System.out.println("Создаем объект Robot");
 
             // Задержка перед созданием скриншота (например, 0.5 секунды)
-            Thread.sleep(500);
+            Thread.sleep(300);
 
             // Делаем скриншот
             BufferedImage screenFullImage = robot.createScreenCapture(screenRect);

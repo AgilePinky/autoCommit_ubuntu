@@ -1,0 +1,9 @@
+
+{
+  "imagePathRRS": "resources/ScreenshotRRS.png",
+  "imagePathDRS": "resources/ScreenshotDRS.png",
+  "imagePathFCS": "resources/ScreenshotFCS.png",
+  "jiraUrl": "https://ticketon.atlassian.net/rest/api/2/issue/",
+  "username": "i.sharipov@lantan.info",
+  "TOKEN": "="
+}
