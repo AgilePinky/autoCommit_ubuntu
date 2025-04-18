@@ -15,10 +15,6 @@ import java.io.File;
 import java.util.Base64;
 
 public class JiraCommentWithImage {
-//    private static final String JIRA_URL = "https://ticketon.atlassian.net/rest/api/2/issue/";
-//    private static final String ISSUE_ID = "TDF-10118"; // Идентификатор задачи
-//    private static final String USERNAME = "i.sharipov@lantan.info"; // Ваша почта
-//    private static final String TOKEN = "="; // Ваш API-токен
 
     static public void addCommentWithImages(String JIRA_URL, String USERNAME, String TOKEN, String ISSUE_ID, String comment, String imagePath1, boolean sendImage1,
                                             String imagePath2, boolean sendImage2, String imagePath3, boolean sendImage3) throws Exception {
@@ -61,15 +57,15 @@ public class JiraCommentWithImage {
         StringBuilder updatedCommentJson = new StringBuilder("{\"body\":\"" + comment);
 
         if (attachmentId1 != null) {
-            updatedCommentJson.append("\\n!ScreenshotRRS.png|width=800,height=550!");
+            updatedCommentJson.append("\\n RRS \\n!ScreenshotRRS.png|width=800,height=450!");
         }
 
         if (attachmentId2 != null) {
-            updatedCommentJson.append("\\n!ScreenshotDRS.png|width=800,height=550!");
+            updatedCommentJson.append("\\n DRS \\n!ScreenshotDRS.png|width=800,height=450!");
         }
 
         if (attachmentId3 != null) {
-            updatedCommentJson.append("\\n!ScreenshotFCS.png|width=800,height=550!");
+            updatedCommentJson.append("\\n FCS \\n!ScreenshotFCS.png|width=800,height=450!");
         }
 
         updatedCommentJson.append("\"}");

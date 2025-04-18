@@ -9,10 +9,10 @@ import org.openqa.selenium.interactions.Actions;
 import javax.swing.*;
 import java.time.Duration;
 
-public class NewCheckDRS {
+public class NewCheckFCS {
     private WebDriver driver;
 
-    public NewCheckDRS(WebDriver driver) {
+    public NewCheckFCS(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -29,21 +29,22 @@ public class NewCheckDRS {
             System.out.println("List found");
             Thread.sleep(250);
 
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='data-routing-service']"))).click();
-            System.out.println("Check-box data-routing-service found");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='front-content']"))).click();
+            System.out.println("Check-box front-content found");
             Actions actions = new Actions(driver);
             actions.sendKeys(Keys.ENTER).perform();
 
 // 2. Получаем текст правильно (может потребоваться getAttribute)
-            textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-service')]")));
+            textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content')]")));
             String actualTextInput = textInputElement.getAttribute("textContent"); // или .getText()
+            System.out.println("GetText");
 
 // 3. Улучшенная проверка с обработкой null
-            if (actualTextInput != null && actualTextInput.contains("data-routing-service")) {
+            if (actualTextInput != null && actualTextInput.contains("front-content")) {
                 // 4. Делаем скриншот с проверкой директории
                 try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-service')]")));
-                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("resources/ScreenshotDRS.png");
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'front-content')]")));
+                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("resources/ScreenshotFCS.png");
                     System.out.println("Скриншот успешно сохранен");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Ошибка при создании скриншота: " + e.getMessage());
@@ -63,7 +64,7 @@ public class NewCheckDRS {
             Thread.sleep(250);
 
         } catch (NoSuchElementException e) {
-            JOptionPane.showMessageDialog(null, "Элемент 'DRS' не найден.");
+            JOptionPane.showMessageDialog(null, "Элемент 'FCS' не найден.");
         }
     }
 }

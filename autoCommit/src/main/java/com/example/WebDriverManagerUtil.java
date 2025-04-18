@@ -40,7 +40,7 @@ public class WebDriverManagerUtil  {
             if (performLogin(driver)) {
                 // Проверяем RRS
                 if (checkRRSCommit) {
-                    CheckRRS checkRRS = new CheckRRS(driver);
+                    NewCheckRRS checkRRS = new NewCheckRRS(driver);
                     checkRRS.execute();
                 }
                 // Проверяем DRS
@@ -50,7 +50,7 @@ public class WebDriverManagerUtil  {
                 }
                 // Проверяем FCS
                 if (checkFCSCommit) {
-                    CheckFCS checkFCS = new CheckFCS(driver);
+                    NewCheckFCS checkFCS = new NewCheckFCS(driver);
                     checkFCS.execute();
                 }
             }

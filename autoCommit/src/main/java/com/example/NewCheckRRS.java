@@ -9,10 +9,10 @@ import org.openqa.selenium.interactions.Actions;
 import javax.swing.*;
 import java.time.Duration;
 
-public class NewCheckDRS {
+public class NewCheckRRS {
     private WebDriver driver;
 
-    public NewCheckDRS(WebDriver driver) {
+    public NewCheckRRS(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -29,21 +29,21 @@ public class NewCheckDRS {
             System.out.println("List found");
             Thread.sleep(250);
 
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='data-routing-service']"))).click();
-            System.out.println("Check-box data-routing-service found");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='react-renderer-service']"))).click();
+            System.out.println("Check-box react-renderer-service found");
             Actions actions = new Actions(driver);
             actions.sendKeys(Keys.ENTER).perform();
 
 // 2. Получаем текст правильно (может потребоваться getAttribute)
-            textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-service')]")));
+            textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'react-renderer-service')]")));
             String actualTextInput = textInputElement.getAttribute("textContent"); // или .getText()
 
 // 3. Улучшенная проверка с обработкой null
-            if (actualTextInput != null && actualTextInput.contains("data-routing-service")) {
+            if (actualTextInput != null && actualTextInput.contains("react-renderer-service")) {
                 // 4. Делаем скриншот с проверкой директории
                 try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'data-routing-service')]")));
-                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("resources/ScreenshotDRS.png");
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'react-renderer-service')]")));
+                    ScreenshotUtilUbuntu.takeScreenshotUbuntu("resources/ScreenshotRRS.png");
                     System.out.println("Скриншот успешно сохранен");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Ошибка при создании скриншота: " + e.getMessage());
@@ -63,7 +63,7 @@ public class NewCheckDRS {
             Thread.sleep(250);
 
         } catch (NoSuchElementException e) {
-            JOptionPane.showMessageDialog(null, "Элемент 'DRS' не найден.");
+            JOptionPane.showMessageDialog(null, "Элемент 'RRS' не найден.");
         }
     }
 }

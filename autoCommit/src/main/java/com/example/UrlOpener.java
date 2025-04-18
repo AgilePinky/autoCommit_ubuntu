@@ -12,10 +12,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 class Config {
     String jiraUrl;
     String username;
-    String password;
     String imagePathRRS;
     String imagePathDRS;
     String imagePathFCS;
@@ -26,23 +29,37 @@ class Config {
 
 public class UrlOpener {
 
-    public static Config loadConfig(String filePath) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Config config = null;
+//    public static Config loadConfig(String filePath) {
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        Config config = null;
+//
+//        try (FileReader reader = new FileReader(filePath)) {
+//            // Чтение конфигурации из файла
+//            config = gson.fromJson(reader, Config.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return config;
+//    }
+public static Config loadConfig() {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        try (FileReader reader = new FileReader(filePath)) {
-            // Чтение конфигурации из файла
-            config = gson.fromJson(reader, Config.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return config;
+    try (InputStream is = UrlOpener.class.getResourceAsStream("/config.json");
+         Reader reader = new InputStreamReader(is)) {
+        return gson.fromJson(reader, Config.class);
+    } catch (Exception e) {
+        System.err.println("Ошибка загрузки конфигурации:");
+        e.printStackTrace();
+        return null;
     }
+}
 
     public static void main(String[] args) {
+
         // Загрузка конфигурации из файла
-        Config config = loadConfig("config.json");
+//        Config config = loadConfig("config.json");
+        Config config = loadConfig();
 
         if (config == null) {
             System.err.println("Не удалось загрузить конфигурацию.");
@@ -94,7 +111,7 @@ public class UrlOpener {
             sendInJiraButtonNew.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String comment = "Актуальное состояние коммита";
+                    String comment = "Актуальное состояние коммитов";
                     String ISSUE_ID = taskField.getText();
 
                     // Создайте экземпляр класса JiraCommentWithImage
