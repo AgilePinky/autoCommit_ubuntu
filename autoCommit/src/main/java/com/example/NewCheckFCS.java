@@ -12,7 +12,7 @@ import java.time.Duration;
 public class NewCheckFCS {
     private WebDriver driver;
 
-    public NewCheckFCS(WebDriver driver) {
+    public NewCheckFCS(WebDriver driver, boolean[] namespaceArray) {
         this.driver = driver;
     }
 

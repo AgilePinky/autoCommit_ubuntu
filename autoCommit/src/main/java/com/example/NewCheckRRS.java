@@ -12,7 +12,7 @@ import java.time.Duration;
 public class NewCheckRRS {
     private WebDriver driver;
 
-    public NewCheckRRS(WebDriver driver) {
+    public NewCheckRRS(WebDriver driver, boolean[] namespaceArray) {
         this.driver = driver;
     }
 

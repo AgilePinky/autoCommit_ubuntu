@@ -1,8 +1,11 @@
 {
   "jiraUrl": "https://ticketon.atlassian.net/rest/api/2/issue/",
-  "username": "i.sharipov@lantan.info",
+  "usernameJira": "i.sharipov@lantan.info",
+  "usernameGrafana": "i.sharipov",
+  "passwordGrafana": "m6JHWgSANhrLbGkta8QUdn",
   "imagePathRRS": "resources/ScreenshotRRS.png",
   "imagePathDRS": "resources/ScreenshotDRS.png",
   "imagePathFCS": "resources/ScreenshotFCS.png",
-  "TOKEN": "="
+  "imagePathNW": "resources/ScreenshotNW.png",
+  "TOKEN": ""
 }

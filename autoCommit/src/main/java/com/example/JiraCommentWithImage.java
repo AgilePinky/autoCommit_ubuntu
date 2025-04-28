@@ -14,14 +14,27 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.Base64;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class JiraCommentWithImage {
 
-    static public void addCommentWithImages(String JIRA_URL, String USERNAME, String TOKEN, String ISSUE_ID, String comment, String imagePath1, boolean sendImage1,
-                                            String imagePath2, boolean sendImage2, String imagePath3, boolean sendImage3) throws Exception {
+
+
+
+    static public void addCommentWithImages(String JIRA_URL, String USERNAME, String TOKEN, String ISSUE_ID, String comment, String imagePath1,
+                                            boolean sendImage1, String imagePath2, boolean sendImage2, String imagePath3,
+                                            boolean sendImage3, String imagePath4, boolean sendImage4) throws Exception {
         CloseableHttpClient client = HttpClients.createDefault();
         String attachmentId1 = null;
         String attachmentId2 = null;
         String attachmentId3 = null;
+        String attachmentId4 = null;
 
         // Загружаем первое изображение, если это необходимо
         if (sendImage1) {
@@ -53,9 +66,20 @@ public class JiraCommentWithImage {
             attachmentId3 = uploadAttachment(JIRA_URL, USERNAME, TOKEN, ISSUE_ID, client, imageFile3);
         }
 
+        // Загружаем второе изображение, если это необходимо
+        if (sendImage4) {
+            File imageFile4 = new File(imagePath4);
+            if (!imageFile4.exists()) {
+                System.out.println("Файл не найден: " + imagePath4);
+                return;
+            }
+            attachmentId4 = uploadAttachment(JIRA_URL, USERNAME, TOKEN, ISSUE_ID, client, imageFile4);
+        }
+
         // Формируем текст комментария с учетом загруженных изображений
         StringBuilder updatedCommentJson = new StringBuilder("{\"body\":\"" + comment);
 
+        for(int i = 0; i < 4; i++)
         if (attachmentId1 != null) {
             updatedCommentJson.append("\\n RRS \\n!ScreenshotRRS.png|width=800,height=450!");
         }
@@ -66,6 +90,10 @@ public class JiraCommentWithImage {
 
         if (attachmentId3 != null) {
             updatedCommentJson.append("\\n FCS \\n!ScreenshotFCS.png|width=800,height=450!");
+        }
+
+        if (attachmentId4 != null) {
+            updatedCommentJson.append("\\n NW \\n!ScreenshotNW.png|width=800,height=450!");
         }
 
         updatedCommentJson.append("\"}");
