@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,18 +30,21 @@ class Config {
 
 public class UrlOpener {
 
-public static Config loadConfig() {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static Config loadConfig() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    try (InputStream is = UrlOpener.class.getResourceAsStream("/config.json");
-         Reader reader = new InputStreamReader(is)) {
-        return gson.fromJson(reader, Config.class);
-    } catch (Exception e) {
-        System.err.println("Ошибка загрузки конфигурации:");
-        e.printStackTrace();
-        return null;
+        try (InputStream is = UrlOpener.class.getResourceAsStream("/config.json");
+             Reader reader = new InputStreamReader(is)) {
+            return gson.fromJson(reader, Config.class);
+        } catch (Exception e) {
+            System.err.println("Ошибка загрузки конфигурации:");
+            e.printStackTrace();
+            return null;
+        }
     }
-}
+
+    public static final String[] IMAGE_LABELS = {"RRS", "DRS", "FCS", "NW"};
+    public static final String IMAGE_TEMPLATE = "\\n %s \\n!Screenshot%s.png|width=800,height=450!";
 
     public static void main(String[] args) {
 
@@ -118,7 +119,7 @@ public static Config loadConfig() {
             Map<String, JCheckBox> checkBoxMapNamespace = new HashMap<>();
             for (String namespace : namespaces) {
                 JCheckBox checkBoxNamespace = new JCheckBox(namespace);
-                checkBoxMap.put(namespace, checkBoxNamespace);
+                checkBoxMapNamespace.put(namespace, checkBoxNamespace);
                 checkBoxPanelNamespace.add(checkBoxNamespace);
             }
 
@@ -158,13 +159,22 @@ public static Config loadConfig() {
                 public void actionPerformed(ActionEvent e) {
                     String comment = "Актуальное состояние коммитов";
                     String ISSUE_ID = taskField.getText();
+                    boolean[] servicesArray = {checkBoxMap.get("RRS").isSelected(), checkBoxMap.get("DRS").isSelected(),
+                            checkBoxMap.get("FCS").isSelected(), checkBoxMap.get("NW").isSelected()};
+                    boolean[] branchesArray = {checkBoxMapNamespace.get("devtcn").isSelected(), checkBoxMapNamespace.get("cat").isSelected(),
+                            checkBoxMapNamespace.get("uz").isSelected(), checkBoxMapNamespace.get("kg").isSelected()};
+                    String[] imagePathArray = {imagePathRRS, imagePathDRS,
+                            imagePathFCS, imagePathNW};
+
 
                     try {
+//                        JiraCommentWithImage.addCommentWithImages(JIRA_URL, usernameJira, TOKEN, ISSUE_ID, comment,
+//                                imagePathRRS, checkBoxMap.get("RRS").isSelected(),
+//                                imagePathDRS, checkBoxMap.get("DRS").isSelected(),
+//                                imagePathFCS, checkBoxMap.get("FCS").isSelected(),
+//                                imagePathNW, checkBoxMap.get("NW").isSelected());
                         JiraCommentWithImage.addCommentWithImages(JIRA_URL, usernameJira, TOKEN, ISSUE_ID, comment,
-                                imagePathRRS, checkBoxMap.get("RRS").isSelected(),
-                                imagePathDRS, checkBoxMap.get("DRS").isSelected(),
-                                imagePathFCS, checkBoxMap.get("FCS").isSelected(),
-                                imagePathNW, checkBoxMap.get("NW").isSelected());
+                                servicesArray, branchesArray, imagePathArray, IMAGE_LABELS, IMAGE_TEMPLATE);
                     } catch (Exception ex) {
                         System.err.println("Произошла ошибка: " + ex.getMessage());
                     }
