@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a28a033e-0148-4299-bcfc-a526657995ec" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/CheckDRS_2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/CheckNW_2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/ScreenshotNWcat.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/ScreenshotNWcat.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/ScreenshotRRS.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/ScreenshotRRS.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/JiraCommentWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/JiraCommentWithImage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/NewCheckNW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/NewCheckNW.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/UrlOpener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/UrlOpener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/WebDriverManagerUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/WebDriverManagerUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +47,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;black&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ivan/Загрузки/Workspace/java/autoCommit_ubuntu/jiraComment&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ivan/Загрузки/Workspace/java/autoCommit_ubuntu/autoCommit&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;

@@ -8,10 +8,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import javax.swing.*;
 import java.time.Duration;
 
-public class NewCheckNW {
+public class CheckNW_2 {
     private WebDriver driver;
 
-    public NewCheckNW(WebDriver driver) {
+    public CheckNW_2(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -21,7 +21,9 @@ public class NewCheckNW {
             Actions actions = new Actions(driver);
 
             // Массив соответствия индексов namespace и их значений
-            String[] namespaceValues = {"devtcn", "cat", "uz", "kg"};
+//            String[] namespaceValues = {"devtcn", "cat", "uz", "kg"};
+            String[] namespaceValues = {"cat", "devtcn", "devuz", "kg", "miniapp", "tj", "uz"};
+
 
             for(int i = 0; i < namespaceArray.length && i < namespaceValues.length; i++) {
                 if (namespaceArray[i]) {

@@ -8,10 +8,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import javax.swing.*;
 import java.time.Duration;
 
-public class NewCheckNW {
+public class CheckDRS_2 {
     private WebDriver driver;
 
-    public NewCheckNW(WebDriver driver) {
+    public CheckDRS_2(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -21,7 +21,8 @@ public class NewCheckNW {
             Actions actions = new Actions(driver);
 
             // Массив соответствия индексов namespace и их значений
-            String[] namespaceValues = {"devtcn", "cat", "uz", "kg"};
+//            String[] namespaceValues = {"devtcn", "cat", "uz", "kg"};
+            String[] namespaceValues = {"cat", "devtcn", "devuz", "kg", "miniapp", "tj", "uz"};
 
             for(int i = 0; i < namespaceArray.length && i < namespaceValues.length; i++) {
                 if (namespaceArray[i]) {
@@ -52,23 +53,23 @@ public class NewCheckNW {
                     System.out.println("Pod list opened");
                     Thread.sleep(250);
 
-                    // 3. Выбираем new-widget
+                    // 3. Выбираем data-routing-service
                     wait.until(ExpectedConditions.visibilityOfElementLocated(
-                            By.xpath("//a[@class='variable-option pointer']//span[text()='new-widget']"))
+                            By.xpath("//a[@class='variable-option pointer']//span[text()='data-routing-service']"))
                     ).click();
-                    System.out.println("Check-box new-widget selected");
+                    System.out.println("Check-box data-routing-service selected");
                     actions.sendKeys(Keys.ENTER).perform();
                     Thread.sleep(250);
 
                     // 4. Проверяем текст
                     WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                            By.xpath("//div[contains(text(), 'new-widget')]")));
+                            By.xpath("//div[contains(text(), 'data-routing-service')]")));
                     String actualTextInput = textInputElement.getAttribute("textContent");
 
-                    if (actualTextInput != null && actualTextInput.contains("new-widget")) {
+                    if (actualTextInput != null && actualTextInput.contains("data-routing-service")) {
                         try {
                             // 5. Делаем скриншот
-                            String screenshotName = "resources/Screenshot_NW_" + namespaceValues[i] + ".png";
+                            String screenshotName = "resources/Screenshot_DRS_" + namespaceValues[i] + ".png";
                             ScreenshotUtilUbuntu.takeScreenshotUbuntu(screenshotName);
                             System.out.println("Скриншот успешно сохранен: " + screenshotName);
                             Thread.sleep(250);

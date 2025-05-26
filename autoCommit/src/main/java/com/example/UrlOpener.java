@@ -44,13 +44,10 @@ public class UrlOpener {
     }
 
     public static final String[] IMAGE_LABELS = {"RRS", "DRS", "FCS", "NW"};
-    public static final String IMAGE_TEMPLATE = "\\n %s \\n!Screenshot%s.png|width=800,height=450!";
+    public static final String[] IMAGE_BRANCHES = {"cat", "devtcn", "devuz", "kg", "miniapp", "tj", "uz"};
+    public static final String IMAGE_TEMPLATE = "\\n branch:%s, service:%s \\n!%s|width=800,height=450!";
 
     public static void main(String[] args) {
-
-
-
-
         // Загрузка конфигурации из файла
         Config config = loadConfig();
 
@@ -63,73 +60,67 @@ public class UrlOpener {
         String imagePathDRS = config.imagePathDRS;
         String imagePathFCS = config.imagePathFCS;
         String imagePathNW = config.imagePathNW;
-        String JIRA_URL = config.jiraUrl; // Обратите внимание на изменение имени переменной
-        String usernameJira = config.usernameJira; // Обратите внимание на изменение имени переменной
-        String usernameGrafana = config.usernameGrafana; // Обратите внимание на изменение имени переменной
-        String passwordGrafana = config.passwordGrafana; // Обратите внимание на изменение имени переменной
-        String TOKEN = config.TOKEN; // Обратите внимание на изменение имени переменной
+        String JIRA_URL = config.jiraUrl;
+        String usernameJira = config.usernameJira;
+        String usernameGrafana = config.usernameGrafana;
+        String passwordGrafana = config.passwordGrafana;
+        String TOKEN = config.TOKEN;
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("URL Opener");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 400);
+            frame.setSize(600, 400);
 
+            // Создаем панель для поля ввода с заголовком
+            JPanel inputPanel = new JPanel();
+            inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
+            // Добавляем заголовок
+            JLabel inputLabel = new JLabel("Введите идентификатор и номер задачи:");
+            inputLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            inputPanel.add(inputLabel);
+
+            // Добавляем поле ввода
             JTextField taskField = new JTextField();
             taskField.setPreferredSize(new Dimension(300, 30));
+            taskField.setMaximumSize(new Dimension(300, 30));
+            taskField.setAlignmentX(Component.CENTER_ALIGNMENT);
+            inputPanel.add(taskField);
 
-            // Создаем модель для выпадающего списка с чекбоксами
-            String[] options = {"RRS", "FCS", "DRS", "NW"};
-            JComboBox<String> comboBox = new JComboBox<>(options);
+            // Создаем панель для двух колонок
+            JPanel columnsPanel = new JPanel(new GridLayout(1, 2, 10, 0));
 
-            // Создаем кнопку для отображения/скрытия списка
-            JButton toggleButton = new JButton("Выбрать сервисы ▼");
+            // Колонка веток
+            JPanel branchesPanel = new JPanel();
+            branchesPanel.setLayout(new BoxLayout(branchesPanel, BoxLayout.Y_AXIS));
+            branchesPanel.setBorder(BorderFactory.createTitledBorder("Ветки"));
 
-            // Панель для чекбоксов, которая будет скрываться/показываться
-            JPanel checkBoxPanel = new JPanel(new GridLayout(0, 1));
-            checkBoxPanel.setVisible(false);
-
-            // Создаем чекбоксы и добавляем их на панель
-            Map<String, JCheckBox> checkBoxMap = new HashMap<>();
-            for (String option : options) {
-                JCheckBox checkBox = new JCheckBox(option);
-                checkBoxMap.put(option, checkBox);
-                checkBoxPanel.add(checkBox);
-            }
-
-            // Обработчик для кнопки переключения
-            toggleButton.addActionListener(e -> {
-                checkBoxPanel.setVisible(!checkBoxPanel.isVisible());
-                toggleButton.setText(checkBoxPanel.isVisible() ?
-                        "Выбрать сервисы ▲" : "Выбрать сервисы ▼");
-                frame.pack();
-            });
-
-            // Создаем модель для выпадающего списка с чекбоксами
-            String[] namespaces = {"devtcn", "cat", "uz", "kg"};
-            JComboBox<String> comboBoxNamespace = new JComboBox<>(options);
-
-            // Создаем кнопку для отображения/скрытия списка
-            JButton toggleButtonNamespace = new JButton("Выбрать ветки ▼");
-
-            // Панель для чекбоксов, которая будет скрываться/показываться
-            JPanel checkBoxPanelNamespace = new JPanel(new GridLayout(0, 1));
-            checkBoxPanelNamespace.setVisible(false);
-
-            // Создаем чекбоксы и добавляем их на панель
+            // Чекбоксы веток
             Map<String, JCheckBox> checkBoxMapNamespace = new HashMap<>();
-            for (String namespace : namespaces) {
-                JCheckBox checkBoxNamespace = new JCheckBox(namespace);
-                checkBoxMapNamespace.put(namespace, checkBoxNamespace);
-                checkBoxPanelNamespace.add(checkBoxNamespace);
+            for (String branch : IMAGE_BRANCHES) {
+                JCheckBox checkBox = new JCheckBox(branch);
+                checkBoxMapNamespace.put(branch, checkBox);
+                branchesPanel.add(checkBox);
+                branchesPanel.add(Box.createVerticalStrut(5));
             }
 
-            // Обработчик для кнопки переключения
-            toggleButtonNamespace.addActionListener(e -> {
-                checkBoxPanelNamespace.setVisible(!checkBoxPanelNamespace.isVisible());
-                toggleButtonNamespace.setText(checkBoxPanelNamespace.isVisible() ?
-                        "Выбрать ветки ▲" : "Выбрать ветки ▼");
-                frame.pack();
-            });
+            // Колонка сервисов
+            JPanel servicesPanel = new JPanel();
+            servicesPanel.setLayout(new BoxLayout(servicesPanel, BoxLayout.Y_AXIS));
+            servicesPanel.setBorder(BorderFactory.createTitledBorder("Сервисы"));
+
+            // Чекбоксы сервисов
+            Map<String, JCheckBox> checkBoxMap = new HashMap<>();
+            for (String service : IMAGE_LABELS) {
+                JCheckBox checkBox = new JCheckBox(service);
+                checkBoxMap.put(service, checkBox);
+                servicesPanel.add(checkBox);
+                servicesPanel.add(Box.createVerticalStrut(5));
+            }
+
+            // Добавляем колонки на панель
+            columnsPanel.add(branchesPanel);
+            columnsPanel.add(servicesPanel);
 
             JButton openButton = new JButton("Сделать скриншот");
             JButton sendInJiraButtonNew = new JButton("Отправить комментарий");
@@ -144,10 +135,13 @@ public class UrlOpener {
                                 checkBoxMap.get("DRS").isSelected(),
                                 checkBoxMap.get("FCS").isSelected(),
                                 checkBoxMap.get("NW").isSelected(),
-                                checkBoxMapNamespace.get("devtcn").isSelected(),
                                 checkBoxMapNamespace.get("cat").isSelected(),
-                                checkBoxMapNamespace.get("uz").isSelected(),
-                                checkBoxMapNamespace.get("kg").isSelected());
+                                checkBoxMapNamespace.get("devtcn").isSelected(),
+                                checkBoxMapNamespace.get("devuz").isSelected(),
+                                checkBoxMapNamespace.get("kg").isSelected(),
+                                checkBoxMapNamespace.get("miniapp").isSelected(),
+                                checkBoxMapNamespace.get("tj").isSelected(),
+                                checkBoxMapNamespace.get("uz").isSelected());
                     } catch (Exception ex) {
                         System.err.println("Произошла ошибка: " + ex.getMessage());
                     }
@@ -159,22 +153,26 @@ public class UrlOpener {
                 public void actionPerformed(ActionEvent e) {
                     String comment = "Актуальное состояние коммитов";
                     String ISSUE_ID = taskField.getText();
-                    boolean[] servicesArray = {checkBoxMap.get("RRS").isSelected(), checkBoxMap.get("DRS").isSelected(),
-                            checkBoxMap.get("FCS").isSelected(), checkBoxMap.get("NW").isSelected()};
-                    boolean[] branchesArray = {checkBoxMapNamespace.get("devtcn").isSelected(), checkBoxMapNamespace.get("cat").isSelected(),
-                            checkBoxMapNamespace.get("uz").isSelected(), checkBoxMapNamespace.get("kg").isSelected()};
-                    String[] imagePathArray = {imagePathRRS, imagePathDRS,
-                            imagePathFCS, imagePathNW};
-
+                    boolean[] servicesArray = {
+                            checkBoxMap.get("RRS").isSelected(),
+                            checkBoxMap.get("DRS").isSelected(),
+                            checkBoxMap.get("FCS").isSelected(),
+                            checkBoxMap.get("NW").isSelected()
+                    };
+                    boolean[] branchesArray = {
+                            checkBoxMapNamespace.get("cat").isSelected(),
+                            checkBoxMapNamespace.get("devtcn").isSelected(),
+                            checkBoxMapNamespace.get("devuz").isSelected(),
+                            checkBoxMapNamespace.get("kg").isSelected(),
+                            checkBoxMapNamespace.get("miniapp").isSelected(),
+                            checkBoxMapNamespace.get("tj").isSelected(),
+                            checkBoxMapNamespace.get("uz").isSelected()
+                    };
+                    String[] imagePathArray = {imagePathRRS, imagePathDRS, imagePathFCS, imagePathNW};
 
                     try {
-//                        JiraCommentWithImage.addCommentWithImages(JIRA_URL, usernameJira, TOKEN, ISSUE_ID, comment,
-//                                imagePathRRS, checkBoxMap.get("RRS").isSelected(),
-//                                imagePathDRS, checkBoxMap.get("DRS").isSelected(),
-//                                imagePathFCS, checkBoxMap.get("FCS").isSelected(),
-//                                imagePathNW, checkBoxMap.get("NW").isSelected());
                         JiraCommentWithImage.addCommentWithImages(JIRA_URL, usernameJira, TOKEN, ISSUE_ID, comment,
-                                servicesArray, branchesArray, imagePathArray, IMAGE_LABELS, IMAGE_TEMPLATE);
+                                servicesArray, branchesArray, imagePathArray, IMAGE_LABELS, IMAGE_TEMPLATE, IMAGE_BRANCHES);
                     } catch (Exception ex) {
                         System.err.println("Произошла ошибка: " + ex.getMessage());
                     }
@@ -187,24 +185,15 @@ public class UrlOpener {
 
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            // Добавляем текстовое поле с выравниванием
-            mainPanel.add(Box.createVerticalStrut(5)); // Небольшой отступ сверху
-
-            mainPanel.add(taskField);
+            mainPanel.add(Box.createVerticalStrut(5));
+            mainPanel.add(inputPanel); // Добавляем панель с заголовком и полем ввода
             mainPanel.add(Box.createVerticalStrut(20));
-            mainPanel.add(toggleButtonNamespace);
-            mainPanel.add(checkBoxPanelNamespace);
-            mainPanel.add(Box.createVerticalStrut(20)); // Небольшой отступ снизу
-            mainPanel.add(toggleButton);
-            mainPanel.add(checkBoxPanel);
+            mainPanel.add(columnsPanel);
             mainPanel.add(Box.createVerticalStrut(20));
             mainPanel.add(buttonPanel);
 
             frame.getContentPane().add(mainPanel);
             frame.pack();
-            frame.setVisible(true);
-
-            frame.getContentPane().add(mainPanel);
             frame.setVisible(true);
         });
     }

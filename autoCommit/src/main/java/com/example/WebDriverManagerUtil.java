@@ -17,12 +17,16 @@ public class WebDriverManagerUtil  {
     public static void openWebpage(String usernameGrafana, String passwordGrafana, String url,
                                    boolean checkRRSCommit, boolean checkDRSCommit,
                                    boolean checkFCSCommit, boolean checkNWCommit,
-                                   boolean checkBoxMapNamespaceDEVTCN, boolean checkBoxMapNamespaceCAT,
-                                   boolean checkBoxMapNamespaceUZ, boolean checkBoxMapNamespaceKG) throws AWTException, InterruptedException{
+                                   boolean checkBoxMapNamespaceCAT, boolean checkBoxMapNamespaceDEVTCN,
+                                   boolean checkBoxMapNamespaceDEVUZ, boolean checkBoxMapNamespaceKG,
+                                   boolean checkBoxMapNamespaceMINIAPP, boolean checkBoxMapNamespaceTJ,
+                                   boolean checkBoxMapNamespaceUZ) throws AWTException, InterruptedException{
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
 
-        boolean[] namespaceArray = {checkBoxMapNamespaceDEVTCN, checkBoxMapNamespaceCAT, checkBoxMapNamespaceUZ, checkBoxMapNamespaceKG};
+        boolean[] namespaceArray = {checkBoxMapNamespaceCAT, checkBoxMapNamespaceDEVTCN, checkBoxMapNamespaceDEVUZ,
+                checkBoxMapNamespaceKG, checkBoxMapNamespaceMINIAPP, checkBoxMapNamespaceTJ,
+                checkBoxMapNamespaceUZ,};
 
 
         try {
@@ -33,24 +37,29 @@ public class WebDriverManagerUtil  {
             driver.manage().window().maximize(); // или driver.manage().window().fullscreen(); для полного экрана
 
                 if (performLogin(driver, usernameGrafana, passwordGrafana)) {
+                    // Проверяем RRS - старый вариант, до проверок веток
+//                    if (checkRRSCommit) {
+//                        NewCheckRRS checkRRS = new NewCheckRRS(driver, namespaceArray);
+//                        checkRRS.execute();
+//                    }
                     // Проверяем RRS
                     if (checkRRSCommit) {
-                        NewCheckRRS checkRRS = new NewCheckRRS(driver, namespaceArray);
-                        checkRRS.execute();
+                        CheckRRS_2 checkRRS = new CheckRRS_2(driver);
+                        checkRRS.execute(driver, namespaceArray);
                     }
                     // Проверяем DRS
                     if (checkDRSCommit) {
-                        NewCheckDRS checkDRS = new NewCheckDRS(driver, namespaceArray);
-                        checkDRS.execute();
+                        CheckDRS_2 checkDRS = new CheckDRS_2(driver);
+                        checkDRS.execute(driver, namespaceArray);
                     }
                     // Проверяем FCS
                     if (checkFCSCommit) {
-                        NewCheckFCS checkFCS = new NewCheckFCS(driver, namespaceArray);
-                        checkFCS.execute();
+                        CheckFCS_2 checkFCS = new CheckFCS_2(driver);
+                        checkFCS.execute(driver, namespaceArray);
                     }
                     // Проверяем NW
                     if (checkNWCommit) {
-                        NewCheckNW checkNW = new NewCheckNW();
+                        CheckNW_2 checkNW = new CheckNW_2(driver);
                         checkNW.execute(driver, namespaceArray);
                     }
                 }
