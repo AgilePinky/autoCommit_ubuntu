@@ -21,7 +21,6 @@ public class CheckDRS_2 {
             Actions actions = new Actions(driver);
 
             // Массив соответствия индексов namespace и их значений
-//            String[] namespaceValues = {"devtcn", "cat", "uz", "kg"};
             String[] namespaceValues = {"cat", "devtcn", "devuz", "kg", "miniapp", "tj", "uz"};
 
             for(int i = 0; i < namespaceArray.length && i < namespaceValues.length; i++) {
@@ -35,23 +34,23 @@ public class CheckDRS_2 {
                     if (!isNamespaceActive(namespaceElement, namespaceValues[i])) {
                         namespaceElement.click();
                         System.out.println("Namespace list opened");
-                        Thread.sleep(250);
+                        Thread.sleep(400);
 
                         // Выбираем соответствующую ветку
                         String xpath = String.format("//a[@class='variable-option pointer']//span[text()='%s']", namespaceValues[i]);
                         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath))).click();
                         System.out.println("Check-box " + namespaceValues[i] + " selected");
                         actions.sendKeys(Keys.ENTER).perform();
-                        Thread.sleep(250);
+                        Thread.sleep(400);
                     } else {
                         System.out.println("Namespace " + namespaceValues[i] + " уже активен - пропускаем выбор");
                     }
 
                     // 2. Выбираем pod
-                    Thread.sleep(250);
+                    Thread.sleep(400);
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
                     System.out.println("Pod list opened");
-                    Thread.sleep(250);
+                    Thread.sleep(400);
 
                     // 3. Выбираем data-routing-service
                     wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -59,7 +58,7 @@ public class CheckDRS_2 {
                     ).click();
                     System.out.println("Check-box data-routing-service selected");
                     actions.sendKeys(Keys.ENTER).perform();
-                    Thread.sleep(250);
+                    Thread.sleep(400);
 
                     // 4. Проверяем текст
                     WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -72,7 +71,7 @@ public class CheckDRS_2 {
                             String screenshotName = "resources/Screenshot_DRS_" + namespaceValues[i] + ".png";
                             ScreenshotUtilUbuntu.takeScreenshotUbuntu(screenshotName);
                             System.out.println("Скриншот успешно сохранен: " + screenshotName);
-                            Thread.sleep(250);
+                            Thread.sleep(400);
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Ошибка при создании скриншота: " + e.getMessage());
                         }
@@ -85,13 +84,13 @@ public class CheckDRS_2 {
                     // 6. Возвращаемся к исходному состоянию
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
                     System.out.println("Pod list reopened");
-                    Thread.sleep(250);
+                    Thread.sleep(400);
                     wait.until(ExpectedConditions.visibilityOfElementLocated(
                             By.xpath("//a[@class='variable-option pointer']//span[text()='All']"))
                     ).click();
                     System.out.println("Check-box All selected");
                     actions.sendKeys(Keys.ENTER).perform();
-                    Thread.sleep(250);
+                    Thread.sleep(400);
                 }
             }
         } catch (NoSuchElementException e) {

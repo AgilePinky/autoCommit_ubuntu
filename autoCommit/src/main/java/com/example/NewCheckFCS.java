@@ -19,15 +19,15 @@ public class NewCheckFCS {
     public void execute() throws InterruptedException {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofMillis(250));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofMillis(400));
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
-            Thread.sleep(500);
+            Thread.sleep(400);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
             System.out.println("List found");
-            Thread.sleep(250);
+            Thread.sleep(400);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='front-content']"))).click();
             System.out.println("Check-box front-content found");
@@ -57,11 +57,11 @@ public class NewCheckFCS {
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
             System.out.println("List found");
-            Thread.sleep(250);
+            Thread.sleep(400);
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='All']"))).click();
             System.out.println("Check-box All found");
             actions.sendKeys(Keys.ENTER).perform();
-            Thread.sleep(250);
+            Thread.sleep(400);
 
         } catch (NoSuchElementException e) {
             JOptionPane.showMessageDialog(null, "Элемент 'FCS' не найден.");

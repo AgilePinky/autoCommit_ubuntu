@@ -23,11 +23,11 @@ public class NewCheckRRS {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement textInputElement = null;
             boolean elementFound = false;
-            Thread.sleep(500);
+            Thread.sleep(400);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
             System.out.println("List found");
-            Thread.sleep(250);
+            Thread.sleep(400);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='react-renderer-service']"))).click();
             System.out.println("Check-box react-renderer-service found");
@@ -56,11 +56,11 @@ public class NewCheckRRS {
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
             System.out.println("List found");
-            Thread.sleep(250);
+            Thread.sleep(400);
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='variable-option pointer']//span[text()='All']"))).click();
             System.out.println("Check-box All found");
             actions.sendKeys(Keys.ENTER).perform();
-            Thread.sleep(250);
+            Thread.sleep(400);
 
         } catch (NoSuchElementException e) {
             JOptionPane.showMessageDialog(null, "Элемент 'RRS' не найден.");

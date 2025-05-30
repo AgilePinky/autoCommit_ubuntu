@@ -34,23 +34,23 @@ public class NewCheckNW {
                     if (!isNamespaceActive(namespaceElement, namespaceValues[i])) {
                         namespaceElement.click();
                         System.out.println("Namespace list opened");
-                        Thread.sleep(250);
+                        Thread.sleep(400);
 
                         // Выбираем соответствующую ветку
                         String xpath = String.format("//a[@class='variable-option pointer']//span[text()='%s']", namespaceValues[i]);
                         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath))).click();
                         System.out.println("Check-box " + namespaceValues[i] + " selected");
                         actions.sendKeys(Keys.ENTER).perform();
-                        Thread.sleep(250);
+                        Thread.sleep(400);
                     } else {
                         System.out.println("Namespace " + namespaceValues[i] + " уже активен - пропускаем выбор");
                     }
 
                     // 2. Выбираем pod
-                    Thread.sleep(250);
+                    Thread.sleep(400);
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
                     System.out.println("Pod list opened");
-                    Thread.sleep(250);
+                    Thread.sleep(400);
 
                     // 3. Выбираем new-widget
                     wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -58,7 +58,7 @@ public class NewCheckNW {
                     ).click();
                     System.out.println("Check-box new-widget selected");
                     actions.sendKeys(Keys.ENTER).perform();
-                    Thread.sleep(250);
+                    Thread.sleep(400);
 
                     // 4. Проверяем текст
                     WebElement textInputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -71,7 +71,7 @@ public class NewCheckNW {
                             String screenshotName = "resources/Screenshot_NW_" + namespaceValues[i] + ".png";
                             ScreenshotUtilUbuntu.takeScreenshotUbuntu(screenshotName);
                             System.out.println("Скриншот успешно сохранен: " + screenshotName);
-                            Thread.sleep(250);
+                            Thread.sleep(400);
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Ошибка при создании скриншота: " + e.getMessage());
                         }
@@ -84,13 +84,13 @@ public class NewCheckNW {
                     // 6. Возвращаемся к исходному состоянию
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pod"))).click();
                     System.out.println("Pod list reopened");
-                    Thread.sleep(250);
+                    Thread.sleep(400);
                     wait.until(ExpectedConditions.visibilityOfElementLocated(
                             By.xpath("//a[@class='variable-option pointer']//span[text()='All']"))
                     ).click();
                     System.out.println("Check-box All selected");
                     actions.sendKeys(Keys.ENTER).perform();
-                    Thread.sleep(250);
+                    Thread.sleep(400);
                 }
             }
         } catch (NoSuchElementException e) {
