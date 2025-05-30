@@ -6,17 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a28a033e-0148-4299-bcfc-a526657995ec" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Screenshot_DRS_cat.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Screenshot_DRS_cat.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Screenshot_DRS_devtcn.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Screenshot_DRS_devtcn.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Screenshot_DRS_kg.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Screenshot_DRS_kg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CheckDRS_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CheckDRS_2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/JiraCommentWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/JiraCommentWithImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/NewCheckFCS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/NewCheckFCS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/NewCheckNW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/NewCheckNW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/NewCheckRRS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/NewCheckRRS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/UrlOpener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/UrlOpener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

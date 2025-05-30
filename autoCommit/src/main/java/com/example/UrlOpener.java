@@ -110,7 +110,7 @@ public class UrlOpener {
                 // Включение сглаживания для закругленных углов
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 // Заливка фона панели
-                g2.setColor(new Color(0x97E1D0));
+                g2.setColor(new Color(0xcfdcf9));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
                 g2.dispose();
             }
@@ -121,12 +121,12 @@ public class UrlOpener {
 
         // Создание стилизованной рамки с заголовком
         TitledBorder border = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(new Color(0x45C7AA), 1, true), // Закругленная рамка
+                BorderFactory.createLineBorder(new Color(0xB23E84), 1, true), // Закругленная рамка
                 title,
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
                 new Font("Segoe UI", Font.BOLD, 12),
-                new Color(0x45C7AA)); // Цвет заголовка
+                new Color(0xB23E84)); // Цвет заголовка
 
         panel.setBorder(border);
         return panel;
@@ -165,7 +165,7 @@ public class UrlOpener {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    g.setColor(new Color(0xEDFAF8)); // Основной цвет фона
+                    g.setColor(new Color(0xfcf4f9)); // Основной цвет фона
                     g.fillRect(0, 0, getWidth(), getHeight());
                 }
             };
@@ -226,8 +226,8 @@ public class UrlOpener {
             columnsPanel.add(servicesPanel);
 
             // 2.8. Создание кнопок
-            JButton openButton = createStyledButton("Сделать скриншот", new Color(0x45C7AA));
-            JButton sendInJiraButtonNew = createStyledButton("Отправить комментарий", new Color(0x45C7AA));
+            JButton openButton = createStyledButton("Сделать скриншот", new Color(0x733186));
+            JButton sendInJiraButtonNew = createStyledButton("Отправить комментарий", new Color(0x733186));
 
             // 2.9. Обработчики событий для кнопок
             openButton.addActionListener(e -> {
